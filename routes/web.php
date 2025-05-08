@@ -18,6 +18,8 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
 // Nastavenie pre anglický jazyk
 Route::get('/en', function () {
     App::setLocale('en');
