@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QuestionController;
 
 // Pre každý jazyk, vrátime konkrétnu view na základe aktuálneho jazyka
 Route::get('lang/{locale}', function ($locale) {
@@ -48,6 +49,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::resource('questions', QuestionController::class);
 });
 
 require __DIR__.'/auth.php';
