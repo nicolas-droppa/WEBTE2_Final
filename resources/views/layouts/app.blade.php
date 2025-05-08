@@ -2,7 +2,7 @@
 <html lang="sk">
 <head>
     <meta charset="UTF-8">
-    <title>Moja stránka</title>
+    <title>M3th</title>
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     @vite('resources/css/app.css')
 </head>
