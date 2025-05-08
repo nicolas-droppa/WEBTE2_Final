@@ -32,3 +32,9 @@ Route::get('/en', function () {
     App::setLocale('en');
     return view('welcome_en');
 })->name('welcome.en');
+
+Route::post('/theme-toggle', function () {
+    $new = session('theme') === 'dark' ? 'light' : 'dark';
+    session(['theme' => $new]);
+    return back();
+})->name('theme.toggle');
