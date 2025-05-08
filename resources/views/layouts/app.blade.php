@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Moja stránka</title>
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     @vite('resources/css/app.css')
 </head>
 <body class="bg-gray-50 text-gray-900">
