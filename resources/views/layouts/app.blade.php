@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Moja stránka</title>
+    @vite('resources/css/app.css')
+</head>
+<body class="bg-gray-50 text-gray-900">
+    @include('layouts.navigation')
+
+    <main class="container mx-auto mt-8">
+        @yield('content')
+    </main>
+</body>
+</html>
