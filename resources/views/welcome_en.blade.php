@@ -1,62 +1,79 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="max-w-4xl mx-auto mt-20 px-4 text-center">
-        <h1 class="text-4xl font-bold mb-6 dark:text-white">Welcome to the Math Platform!</h1>
-        <p class="text-lg text-gray-700 dark:text-gray-300 mb-10">
-            Discover a wide range of math problems, exercises, and tests designed to sharpen your skills.
+    <div class="max-w-4xl mx-auto mt-16 mb-20 px-6">
+        <h1 class="text-4xl font-bold mb-6 text-slate-800 dark:text-gray-100">Welcome to the M3th Page!</h1>
+        <p class="text-lg text-slate-600 dark:text-gray-300 mb-10">
+            Discover a variety of math problems, exercises, and tests that will help you improve your skills.
         </p>
 
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-8 text-left space-y-6">
-            <h2 class="text-2xl font-semibold text-gray-800 dark:text-white">How to Use This Application</h2>
+        <div class="bg-white dark:bg-[#1c1c1e] rounded-xl shadow-md p-8 space-y-8 border border-slate-200 dark:border-[#141414]">
+            <h2 class="text-2xl font-semibold text-[#54b5ff] dark:text-[#54b5ff] border-b pb-2 dark:border-[#141414]">
+                <i class="fas fa-compass mr-2 text-[#54b5ff] dark:text-[#54b5ff]"></i>
+                How to Use the App
+            </h2>
 
-            <div class="space-y-4">
-                <div>
-                    <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200">🗺️ Language & Theme Switch</h3>
-                    <p class="text-gray-700 dark:text-gray-400">
-                        In the top navigation bar, you can switch between supported languages (e.g., English / Slovak).
-                        You can also toggle between light and dark themes to suit your visual preferences.
-                    </p>
-                </div>
+            <section class="space-y-2">
+                <h3 class="text-lg font-semibold text-slate-800 dark:text-gray-100">
+                    <i class="fas fa-globe mr-2 text-[#54b5ff] dark:text-[#54b5ff]"></i>
+                    Switching Language and Theme
+                </h3>
+                <p class="text-slate-700 dark:text-gray-400">
+                    In the top bar, you can change the app language (e.g., Slovak / English) and also toggle between
+                    <strong>light/dark mode</strong> using the icons.
+                </p>
+            </section>
 
-                <div>
-                    <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200">📝 Question Types</h3>
-                    <ul class="list-disc list-inside text-gray-700 dark:text-gray-400">
-                        <li>Multiple-choice questions with only one correct answer.</li>
-                        <li>Open-ended numerical questions where you type in the result.</li>
-                        <li>Decimal numbers can be written using either a <strong>dot (1.25)</strong> or a <strong>comma (1,25)</strong>.</li>
-                        <li>Unless stated otherwise, you should round your answer to <strong>two decimal places</strong>.</li>
-                    </ul>
-                </div>
+            <section class="space-y-2">
+                <h3 class="text-lg font-semibold text-slate-800 dark:text-gray-100">
+                    <i class="fas fa-question-circle mr-2 text-[#54b5ff] dark:text-[#54b5ff]"></i>
+                    Types of Questions in the Test
+                </h3>
+                <ul class="list-disc list-inside text-slate-700 dark:text-gray-400 space-y-1">
+                    <li>Multiple choice questions – only <strong>one correct answer</strong>.</li>
+                    <li>Open-ended questions where you enter a <strong>numeric answer</strong>.</li>
+                    <li>Write numbers with either a dot or a comma (<code>1.25</code> / <code>1,25</code>).</li>
+                    <li>It is recommended to <strong>round to 2 decimal places</strong> if not specified otherwise.</li>
+                </ul>
+            </section>
 
-                <div>
-                    <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200">⏱️ Timing & Question Flow</h3>
-                    <p class="text-gray-700 dark:text-gray-400">
-                        A timer starts as soon as a question is displayed. Each question is shown individually — no skipping ahead.
-                        Answer promptly, as speed also counts in your evaluation!
-                    </p>
-                </div>
+            <section class="space-y-2">
+                <h3 class="text-lg font-semibold text-slate-800 dark:text-gray-100">
+                    <i class="fas fa-stopwatch mr-2 text-[#54b5ff] dark:text-[#54b5ff]"></i>
+                    Time Limit
+                </h3>
+                <p class="text-slate-700 dark:text-gray-400">
+                    As soon as the question appears, the <strong>timer starts</strong>. Questions appear one by one, and the speed of your answers is part of the scoring.
+                </p>
+            </section>
 
-                <div>
-                    <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200">🔐 No Login Required</h3>
-                    <p class="text-gray-700 dark:text-gray-400">
-                        You <strong>don’t need to log in</strong> to take the tests. Your results are stored anonymously along with your approximate city and country location.
-                    </p>
-                </div>
+            <section class="space-y-2">
+                <h3 class="text-lg font-semibold text-slate-800 dark:text-gray-100">
+                    <i class="fas fa-unlock-alt mr-2 text-[#54b5ff] dark:text-[#54b5ff]"></i>
+                    No Registration Required
+                </h3>
+                <p class="text-slate-700 dark:text-gray-400">
+                    You can fill out the test <strong>without registration</strong>. The results will be saved anonymously, along with your location information (city and country).
+                </p>
+            </section>
 
-                <div>
-                    <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200">📊 Results & Feedback</h3>
-                    <ul class="list-disc list-inside text-gray-700 dark:text-gray-400">
-                        <li>At the end of each test, you'll see which answers were correct and which were not — along with explanations.</li>
-                        <li>We’ll recommend which topics you should revise based on your performance.</li>
-                        <li>You’ll also see the <strong>average solving time</strong> of other users for each question.</li>
-                        <li>Results can be <strong>exported to a PDF file</strong> for your reference or printing.</li>
-                    </ul>
-                </div>
-            </div>
+            <section class="space-y-2">
+                <h3 class="text-lg font-semibold text-slate-800 dark:text-gray-100">
+                    <i class="fas fa-chart-bar mr-2 text-[#54b5ff] dark:text-[#54b5ff]"></i>
+                    Results and Recommendations
+                </h3>
+                <ul class="list-disc list-inside text-slate-700 dark:text-gray-400 space-y-1">
+                    <li>We will display the correct and incorrect answers along with explanations.</li>
+                    <li>You will receive a <strong>recommendation for repeating specific topics</strong>.</li>
+                    <li>You can compare your <strong>completion time with the average of other users</strong>.</li>
+                    <li>You can <strong>download your results as a PDF</strong> for further analysis or printing.</li>
+                </ul>
+            </section>
 
-            <div class="mt-8 text-center">
-                <p class="text-base text-gray-600 dark:text-gray-400">Ready to start? <span class="font-semibold">Jump into a math challenge now!</span></p>
+            <div class="pt-4">
+                <p class="text-base text-slate-600 dark:text-gray-400">
+                    Are you ready? <span class="font-semibold text-[#54b5ff] dark:text-[#54b5ff]">Start your math training now!</span>
+                </p>
             </div>
         </div>
     </div>

@@ -3,11 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>M3th</title>
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+
+    <!-- Font-awesome ( icons ) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
     <script src="//unpkg.com/alpinejs" defer></script>
     @vite('resources/css/app.css')
 </head>
-<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+<body class="bg-gray-50 text-gray-900 dark:bg-[#18181a] dark:text-gray-100 transition-colors duration-300">
     @include('layouts.navigation')
 
     <main class="container mx-auto mt-8">

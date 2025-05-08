@@ -1,14 +1,28 @@
-<nav class="bg-white dark:bg-gray-800 shadow-md">
+<nav class="bg-white dark:bg-[#1a1919] shadow-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
-            <!-- Left side: Logo + Auth -->
-            <div class="flex items-center space-x-6">
-                <!-- Logo -->
-                <div class="text-xl font-semibold text-gray-900 dark:text-white">
-                    <a href="{{ route('welcome.' . app()->getLocale()) }}" class="hover:text-indigo-600 dark:hover:text-indigo-400">
-                        Math World
-                    </a>
-                </div>
+
+            {{-- Logo --}}
+            <div class="text-xl font-semibold text-slate-800 dark:text-white">
+                <a href="{{ route('welcome.' . app()->getLocale()) }}"
+                   class="hover:text-[#54b5ff] dark:hover:text-[#54b5ff] transition duration-300 flex items-center gap-2">
+                    <i class="fa-solid fa-square-root-variable text-[#54b5ff] dark:text-[#54b5ff]"></i>
+                    M3th
+                </a>
+            </div>
+
+            {{-- Navigation Links --}}
+            <div class="flex items-center space-x-6 text-base font-semibold">
+                <a href="{{ route('welcome.' . app()->getLocale()) }}"
+                class="pb-1 border-b-2 transition duration-300
+                        @if(request()->routeIs('welcome.*'))
+                            border-[#54b5ff] text-slate-800 dark:text-white
+                        @else
+                            border-transparent text-slate-700 dark:text-gray-300 hover:border-[#54b5ff]
+                        @endif">
+                    {{ app()->getLocale() === 'sk' ? 'Návod' : 'Guide' }}
+                </a>
+            </div>
 
                 <!-- Auth -->
                 @auth
@@ -72,12 +86,7 @@
                     <span class="hidden md:inline">English</span>
                     <span class="md:hidden">EN</span>
                 </a>
-                <form method="POST" action="{{ route('theme.toggle') }}">
-                    @csrf
-                    <button type="submit" class="px-2 py-1 text-sm rounded bg-gray-100 dark:bg-gray-700 dark:text-white hover:bg-indigo-100 dark:hover:bg-gray-600">
-                        {{ session('theme') === 'dark' ? '🌞 Svetlý režim' : '🌙 Tmavý režim' }}
-                    </button>
-                </form>
+
             </div>
         </div>
     </div>
