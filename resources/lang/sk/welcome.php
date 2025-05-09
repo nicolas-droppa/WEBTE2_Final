@@ -26,4 +26,5 @@ return [
     ],
     'ready' => 'Ste pripravený?',
     'start_training' => 'Začnite svoje matematické cvičenie teraz!',
+    'download_pdf' => 'Stiahnuť Návod'
 ];

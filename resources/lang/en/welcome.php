@@ -26,4 +26,5 @@ return [
     ],
     'ready' => 'Are you ready?',
     'start_training' => 'Start your math training now!',
+    'download_pdf' => 'Download Guide'
 ];
