@@ -3,7 +3,7 @@
 return [
     'welcome_title' => 'Vitajte na stránke M3th!',
     'welcome_text' => 'Objavte rôzne matematické úlohy, cvičenia a testy, ktoré vám pomôžu zlepšiť vaše zručnosti.',
-    'how_to_use' => 'Ako používať aplikáciu',
+    'how_to_use' => 'Ako používať M3th',
     'switch_language' => 'Zmena jazyka a témy',
     'switch_language_description' => 'V hornej lište môžete zmeniť jazyk aplikácie (napr. slovenčina / angličtina) a tiež prepnúť medzi svetlým a tmavým režimom pomocou ikon.',
     'question_types' => 'Typy otázok v teste',

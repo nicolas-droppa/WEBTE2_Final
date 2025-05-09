@@ -3,7 +3,7 @@
 return [
     'welcome_title' => 'Welcome to the M3th Page!',
     'welcome_text' => 'Discover a variety of math problems, exercises, and tests that will help you improve your skills.',
-    'how_to_use' => 'How to Use the App',
+    'how_to_use' => 'How to Use M3th',
     'switch_language' => 'Switching Language and Theme',
     'switch_language_description' => 'In the top bar, you can change the app language (e.g., Slovak / English) and also toggle between light/dark mode using the icons.',
     'question_types' => 'Types of Questions in the Test',
