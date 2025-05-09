@@ -8,13 +8,11 @@ use App\Http\Controllers\QuestionController;
 
 // Pre každý jazyk, vrátime konkrétnu view na základe aktuálneho jazyka
 Route::get('lang/{locale}', function ($locale) {
-    // Overíme, či je jazyk validný
     if (in_array($locale, ['en', 'sk'])) {
-        App::setLocale($locale); // Nastavíme aktuálny jazyk
-        Session::put('locale', $locale); // Uložíme jazyk do session
+        App::setLocale($locale);
+        Session::put('locale', $locale);
     }
     
-    // Prepresmerujeme na predchádzajúcu stránku
     return redirect()->back();
 })->name('set-language');
 
@@ -23,23 +21,45 @@ Route::get('/', function () {
     return view('welcome_' . App::getLocale());
 })->name('welcome');
 
-// Nastavenie pre slovenský jazyk
+// LANGUAGE
 Route::get('/sk', function () {
     App::setLocale('sk');
     return view('welcome_sk');
 })->name('welcome.sk');
 
-// Nastavenie pre anglický jazyk
 Route::get('/en', function () {
     App::setLocale('en');
     return view('welcome_en');
 })->name('welcome.en');
 
+// THEME
 Route::post('/theme-toggle', function () {
     $new = session('theme') === 'dark' ? 'light' : 'dark';
     session(['theme' => $new]);
     return back();
 })->name('theme.toggle');
+
+// LOGIN
+Route::get('/sk/login', function () {
+    App::setLocale('sk');
+    return view('auth.login_sk');
+})->name('login.sk');
+
+Route::get('/en/login', function () {
+    App::setLocale('en');
+    return view('auth.login_en');
+})->name('login.en');
+
+// REGISTER
+Route::get('/sk/register', function () {
+    App::setLocale('sk');
+    return view('auth.register_sk');
+})->name('register.sk');
+
+Route::get('/en/register', function () {
+    App::setLocale('en');
+    return view('auth.register_en');
+})->name('register.en');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
