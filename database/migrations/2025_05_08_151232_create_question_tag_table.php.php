@@ -15,6 +15,7 @@ return new class extends Migration
             $table->foreignId('question_id')->constrained()->onDelete('cascade');
             $table->foreignId('tag_id')->constrained()->onDelete('cascade');
             $table->primary(['question_id', 'tag_id']);
+            $table->timestamps(); // Add timestamps to the pivot table
         });
     }
 
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('question_tag');
     }
 };

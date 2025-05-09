@@ -9,15 +9,18 @@ class Question extends Model
 {
     protected $fillable = ['assignment_sk', 'assignment_en', 'isMultiChoice'];
 
+    protected $casts = [
+        'isMultiChoice' => 'boolean',
+    ];
+
     public function answers()
     {
         return $this->hasMany(Answer::class);
     }
 
-
-    public function tags(): BelongsToMany
+    public function tags()
     {
-        return $this->belongsToMany(Tag::class, 'question_tag');
+        return $this->belongsToMany(Tag::class);
     }
 
     public function tests(): BelongsToMany

@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Tag extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['name_sk', 'name_en'];
 
-    public function questions(): BelongsToMany
+    public function questions()
     {
-        return $this->belongsToMany(Question::class, 'question_tag');
+        return $this->belongsToMany(Question::class);
     }
 }
