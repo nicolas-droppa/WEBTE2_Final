@@ -17,7 +17,7 @@
             </div>
 
             <div class="flex justify-end">
-                <a href="{{ route('manual.download') }}"
+                <a href="{{ route('manual.download', ['lang' => app()->getLocale()]) }}"
                 class="text-gray-500 pt-2 pr-4 text-xs font-semibold">
                     <i class="fas fa-download mr-1"></i> {{ __('welcome.download_pdf') }}
                 </a>
