@@ -18,4 +18,6 @@ return [
     'question-count' => 'Počet odpovedaní',
     'question-success-rate' => 'Percento úspešnosti',
     'question-avg-time' => 'Priemerný čas riešenia',
+    'questions-export-btn' => 'Stiahnuť štatistiku otázok do CSV súboru',
+    'tests-export-btn' => 'Stiahnuť prehľad testov do CSV súboru'
 ];

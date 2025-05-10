@@ -6,6 +6,11 @@ use App\Models\Test;
 use App\Models\Question;
 use Illuminate\Http\Request;
 
+use App\Exports\QuestionExport;
+use App\Exports\TestExport;
+use Maatwebsite\Excel\Facades\Excel;
+
+
 class HistoryController extends Controller
 {
     public function index(Request $request)
@@ -36,5 +41,15 @@ class HistoryController extends Controller
 
 
         return view('history.index', compact('tests', 'questions'));
+    }
+
+    public function exportQuestions()
+    {
+        return Excel::download(new QuestionExport, 'questions.csv');
+    }
+
+    public function exportTests()
+    {
+        return Excel::download(new TestExport, 'tests.csv');
     }
 }
