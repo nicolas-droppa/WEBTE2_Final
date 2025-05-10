@@ -83,11 +83,11 @@
 
 <style>
     @font-face {
-        font-family: 'OpenSans';
-        font-style: normal;
-        font-weight: 400;
-        src: url('{{ storage_path('fonts/OpenSans.ttf') }}') format('truetype');
-    }
+    font-family: 'Open Sans';
+    src: url({{ ($pdf ?? false) ? public_path('fonts/OpenSans.ttf') : asset('fonts/OpenSans.ttf') }}) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
     .pdf-export-only {
         display: none;
