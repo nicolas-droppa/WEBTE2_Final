@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ManualController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Middleware\SetLocale;
 
 Route::get('lang/{locale}', function ($locale) {
@@ -62,9 +63,13 @@ Route::middleware([SetLocale::class])->group(function () {
 
         Route::resource('questions', QuestionController::class);
     });
+
+    Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
 });
 
 Route::get('/manual/download', [ManualController::class, 'downloadManual'])->name('manual.download');
+
+
 
 Route::middleware([SetLocale::class])->group(function () {
     require __DIR__.'/auth.php';
