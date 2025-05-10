@@ -3,14 +3,14 @@
 @section('content')
 <div class="max-w-5xl mx-auto px-6 mt-16 mb-20">
     @if ($errors->any())
-        <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-500 text-red-600 dark:text-red-400 rounded-lg">
-            <strong class="block text-sm font-semibold mb-2">{{ __('general.input_errors') }}</strong>
-            <ul class="list-disc pl-5 text-sm space-y-1">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+    <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-500 text-red-600 dark:text-red-400 rounded-lg">
+        <strong class="block text-sm font-semibold mb-2">{{ __('general.input_errors') }}</strong>
+        <ul class="list-disc pl-5 text-sm space-y-1">
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
     @endif
 
     <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
@@ -19,13 +19,13 @@
             {{ __('questions.create_title') }}
         </h1>
         <a href="{{ route('questions.index') }}"
-           class="bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-white px-4 py-2 rounded hover:bg-slate-300 dark:hover:bg-slate-600 transition shadow flex items-center gap-2">
+            class="bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-white px-4 py-2 rounded hover:bg-slate-300 dark:hover:bg-slate-600 transition shadow flex items-center gap-2">
             <i class="fas fa-arrow-left"></i> {{ __('questions.back_to_list') }}
         </a>
     </div>
 
     <form method="POST" action="{{ route('questions.store') }}" id="question-form"
-          class="bg-white dark:bg-[#1c1c1e] p-8 rounded-xl shadow-md border border-slate-200 dark:border-[#141414] space-y-6">
+        class="bg-white dark:bg-[#1c1c1e] p-8 rounded-xl shadow-md border border-slate-200 dark:border-[#141414] space-y-6">
         @csrf
 
         <div class="mb-4">
@@ -76,18 +76,24 @@
             </h3>
 
             <div class="answer mb-4 border border-slate-200 dark:border-slate-600 p-4 rounded-lg bg-slate-50 dark:bg-[#2a2a2a] relative">
-                <input type="text" name="answers[0][answer]" placeholder="{{ __('questions.answer_placeholder') }}" class="answer-input w-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#2a2a2a] text-slate-800 dark:text-white p-2 rounded-md mb-2 focus:ring-[#54b5ff] focus:border-[#54b5ff]">
-                <div class="answer-preview mt-2 text-slate-700 dark:text-slate-200 text-sm"></div>
+                <input type="text" name="answers[0][answer_sk]" placeholder="Odpoveď (SK)" class="answer-input answer-sk-input w-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#2a2a2a] text-slate-800 dark:text-white p-2 rounded-md mb-2">
+                <div class="answer-sk-preview text-slate-700 dark:text-slate-200 text-sm mb-2"></div>
+
+                <input type="text" name="answers[0][answer_en]" placeholder="Answer (EN)" class="answer-input answer-en-input w-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#2a2a2a] text-slate-800 dark:text-white p-2 rounded-md mb-2">
+                <div class="answer-en-preview text-slate-700 dark:text-slate-200 text-sm mb-2"></div>
+
                 <div class="flex items-center space-x-2">
                     <input type="hidden" name="answers[0][isCorrect]" value="0">
-                    <input id="answers[0][isCorrect]" type="checkbox" name="answers[0][isCorrect]" value="1" {{ old('answers.0.isCorrect') ? 'checked' : '' }} class="rounded border-slate-300 dark:border-slate-500 text-green-600 focus:ring-green-400 dark:focus:ring-green-500">
+                    <input id="answers[0][isCorrect]" type="checkbox" name="answers[0][isCorrect]" value="1" class="rounded border-slate-300 dark:border-slate-500 text-green-600 focus:ring-green-400 dark:focus:ring-green-500">
                     <label for="answers[0][isCorrect]" class="text-sm text-slate-700 dark:text-slate-300">{{ __('questions.is_correct') }}</label>
                 </div>
+
                 <button type="button" class="remove-answer absolute bottom-2 right-2 text-sm text-red-500 hover:text-red-700 dark:hover:text-red-400">
                     ✖
                 </button>
             </div>
         </div>
+
 
         <button type="button" id="add-answer" class="flex items-center h-9 rounded-md overflow-hidden transition duration-300 group">
             <!-- Textová časť -->
@@ -116,33 +122,55 @@
 <script src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js"></script>
 
 <script>
-    let answerCount = 1;
+    let answerCount = 0;
+
+    function attachAnswerPreviewEvents(container) {
+        const inputSk = container.querySelector('.answer-sk-input');
+        const previewSk = container.querySelector('.answer-sk-preview');
+
+        const inputEn = container.querySelector('.answer-en-input');
+        const previewEn = container.querySelector('.answer-en-preview');
+
+        inputSk.addEventListener('input', () => {
+            previewSk.textContent = inputSk.value;
+        });
+
+        inputEn.addEventListener('input', () => {
+            previewEn.textContent = inputEn.value;
+        });
+    }
+
+    // Attach to initial answer block
+    document.querySelectorAll('.answer').forEach(attachAnswerPreviewEvents);
 
     document.getElementById("add-answer").addEventListener("click", () => {
         const container = document.createElement('div');
-        container.classList.add('answer', 'mb-4', 'border', 'border-gray-200', 'p-4', 'rounded-lg', 'bg-gray-50', 'relative', 'dark:bg-gray-800', 'dark:border-gray-600');
+        container.className = "answer mb-4 border border-slate-200 dark:border-slate-600 p-4 rounded-lg bg-slate-50 dark:bg-[#2a2a2a] relative";
 
         container.innerHTML = `
-            <input type="text" name="answers[${answerCount}][answer]" placeholder="Answer text" class="answer-input w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 p-2 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-500">
-            <div class="answer-preview mt-2 text-gray-700 dark:text-gray-200"></div>
+            <input type="text" name="answers[${answerCount}][answer_sk]" placeholder="Odpoveď (SK)" class="answer-input answer-sk-input w-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#2a2a2a] text-slate-800 dark:text-white p-2 rounded-md mb-2">
+            <div class="answer-sk-preview text-slate-700 dark:text-slate-200 text-sm mb-2"></div>
+
+            <input type="text" name="answers[${answerCount}][answer_en]" placeholder="Answer (EN)" class="answer-input answer-en-input w-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#2a2a2a] text-slate-800 dark:text-white p-2 rounded-md mb-2">
+            <div class="answer-en-preview text-slate-700 dark:text-slate-200 text-sm mb-2"></div>
+
             <div class="flex items-center space-x-2">
                 <input type="hidden" name="answers[${answerCount}][isCorrect]" value="0">
-                <input id="answers[${answerCount}][isCorrect]" type="checkbox" name="answers[${answerCount}][isCorrect]" value="1" class="rounded border-gray-300 dark:border-gray-500 text-green-600 focus:ring-green-500 dark:focus:ring-green-500">
-                <label for="answers[${answerCount}][isCorrect]" class="text-sm text-gray-700 dark:text-gray-300">Is Correct?</label>
+                <input id="answers[${answerCount}][isCorrect]" type="checkbox" name="answers[${answerCount}][isCorrect]" value="1" class="rounded border-slate-300 dark:border-slate-500 text-green-600 focus:ring-green-400 dark:focus:ring-green-500">
+                <label for="answers[${answerCount}][isCorrect]" class="text-sm text-slate-700 dark:text-slate-300">{{ __('questions.is_correct') }}</label>
             </div>
-            <button type="button" class="remove-answer absolute bottom-2 right-2 text-sm text-red-500 hover:text-red-700 dark:hover:text-red-400">Delete</button>
-        `;
-
+            <button type="button" class="remove-answer absolute bottom-2 right-2 text-sm text-red-500 hover:text-red-700 dark:hover:text-red-400">✖</button>
+            `;
 
         document.getElementById("answers").appendChild(container);
+        attachAnswerPreviewEvents(container);
         answerCount++;
     });
 
-
-    document.getElementById("answers").addEventListener("click", function(e) {
+    // Optional: handle remove-answer click events
+    document.addEventListener('click', function(e) {
         if (e.target.classList.contains('remove-answer')) {
-            const answerBlock = e.target.closest('.answer');
-            answerBlock.remove();
+            e.target.closest('.answer').remove();
         }
     });
 

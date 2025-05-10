@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Answer extends Model
 {
-    protected $fillable = ['answer', 'isCorrect'];
+    protected $fillable = ['answer_sk', 'answer_en', 'isCorrect'];
 
     public function question()
     {

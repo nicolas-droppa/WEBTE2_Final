@@ -55,7 +55,8 @@ class QuestionController extends Controller
             'tags.*.name_sk' => 'required|string',
             'tags.*.name_en' => 'required|string',
             'answers' => 'required|array',
-            'answers.*.answer' => 'required|string',
+            'answers.*.answer_sk' => 'required|string',
+            'answers.*.answer_en' => 'required|string',
             'answers.*.isCorrect' => 'required|boolean',
         ]);
 
@@ -79,7 +80,8 @@ class QuestionController extends Controller
         // Store the answers as well (assuming you already have the logic)
         foreach ($validated['answers'] as $answerData) {
             $question->answers()->create([
-                'answer' => $answerData['answer'],
+                'answer_sk' => $answerData['answer_sk'],
+                'answer_en' => $answerData['answer_en'],
                 'isCorrect' => $answerData['isCorrect'] ?? false,
             ]);
         }
@@ -97,7 +99,8 @@ class QuestionController extends Controller
             'assignment_en' => 'required|string',
             'isMultiChoice' => 'required|boolean',
             'answers' => 'required|array|min:1',
-            'answers.*.answer' => 'required|string',
+            'answers.*.answer_sk' => 'required|string',
+            'answers.*.answer_en' => 'required|string',
             'answers.*.isCorrect' => 'nullable|boolean',
             'answers.*.id' => 'nullable|string',
             'tags' => 'required|array',
@@ -125,15 +128,17 @@ class QuestionController extends Controller
                 if ($answer) {
                     // Update existing answer
                     $answer->update([
-                        'answer' => $answerData['answer'],
+                        'answer_en' => $answerData['answer_en'],
+                        'answer_sk' => $answerData['answer_sk'],
                         'isCorrect' => $answerData['isCorrect'] ?? false
                     ]);
                 }
             } else {
                 // Create a new answer if no ID is provided
                 $question->answers()->create([
-                    'answer' => $answerData['answer'],
-                    'isCorrect' => $answerData['isCorrect'],
+                    'answer_en' => $answerData['answer_en'],
+                    'answer_sk' => $answerData['answer_sk'],
+                    'isCorrect' => $answerData['isCorrect'] ?? false,
                 ]);
             }
         }

@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
-            $table->string('answer');
+            $table->string('answer_sk')->nullable();
+            $table->string('answer_en')->nullable();
             $table->boolean('isCorrect')->default(false);
             $table->timestamps();
         });

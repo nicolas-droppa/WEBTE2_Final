@@ -57,8 +57,10 @@
             <div id="answers" class="mt-3">
                 @foreach($question->answers as $index => $answer)
                 <div class="answer mb-4 border border-gray-200 dark:border-gray-600 p-4 rounded-lg bg-gray-50 dark:bg-gray-800 relative">
-                    <input type="text" name="answers[{{ $index }}][answer]" placeholder="Answer text" class="answer-input w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 p-2 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-500" value="{{ old('answers.' . $index . '.answer', $answer->answer) }}">
-                    <div class="answer-preview mt-2 text-gray-700 dark:text-gray-200"></div>
+                    <input type="text" name="answers[{{ $index }}][answer_en]" placeholder="Answer (EN)" class="answer-input answer-sk-input w-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#2a2a2a] text-slate-800 dark:text-white p-2 rounded-md mb-2" value="{{ old('answers.' . $index . '.answer_en', $answer->answer_en) }}">
+                    <div class="answer-preview mt-2 mb-2 text-gray-700 dark:text-gray-200"></div>
+                    <input type="text" name="answers[{{ $index }}][answer_sk]" placeholder="Answer (SK)" class="answer-input answer-en-input w-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#2a2a2a] text-slate-800 dark:text-white p-2 rounded-md mb-2" value="{{ old('answers.' . $index . '.answer_sk', $answer->answer_sk) }}">
+                    <div class="answer-preview mt-2 mb-2 text-gray-700 dark:text-gray-200"></div>
                     <input type="hidden" name="answers[{{ $index }}][id]" value="{{ $answer['id'] }}">
                     <div class="flex items-center space-x-2">
                         <input type="hidden" name="answers[0][isCorrect]" value="0">
@@ -98,8 +100,10 @@
         container.classList.add('answer', 'mb-4', 'border', 'border-gray-200', 'p-4', 'rounded-lg', 'bg-gray-50', 'relative', 'dark:bg-gray-800', 'dark:border-gray-600');
 
         container.innerHTML = `
-            <input type="text" name="answers[${answerCount}][answer]" placeholder="Answer text" class="answer-input w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 p-2 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-500">
-            <div class="answer-preview mt-2 text-gray-700 dark:text-gray-200"></div>
+            <input type="text" name="answers[${answerCount}][answer_en]" placeholder="Answer (EN)" class="answer-input answer-sk-input w-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#2a2a2a] text-slate-800 dark:text-white p-2 rounded-md mb-2">
+            <div class="answer-preview mt-2 mb-2 text-gray-700 dark:text-gray-200"></div>
+            <input type="text" name="answers[${answerCount}][answer_sk]" placeholder="Answer (SK)" class="answer-input answer-en-input w-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#2a2a2a] text-slate-800 dark:text-white p-2 rounded-md mb-2">
+            <div class="answer-preview mt-2 mb-2 text-gray-700 dark:text-gray-200"></div>
             <div class="flex items-center space-x-2">
                 <input type="hidden" name="answers[${answerCount}][isCorrect]" value="0">
                 <input id="answers[${answerCount}][isCorrect]" type="checkbox" name="answers[${answerCount}][isCorrect]" value="1" class="rounded border-gray-300 dark:border-gray-500 text-green-600 focus:ring-green-500 dark:focus:ring-green-500">
