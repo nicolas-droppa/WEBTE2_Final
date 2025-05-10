@@ -15,9 +15,10 @@ return [
     'question-id' => 'ID',
     'question-text' => 'Otázka',
     'question-tag' => 'Oblasť',
-    'question-count' => 'Počet odpovedaní',
-    'question-success-rate' => 'Percento úspešnosti',
+    'question-count' => 'Počet zodpovedaní',
+    'question-success-rate' => 'Úspešnosť',
     'question-avg-time' => 'Priemerný čas riešenia',
     'questions-export-btn' => 'Stiahnuť štatistiku otázok do CSV súboru',
-    'tests-export-btn' => 'Stiahnuť prehľad testov do CSV súboru'
+    'tests-export-btn' => 'Stiahnuť prehľad testov do CSV súboru',
+    'clear-history-btn' => 'Vymazať históriu TODO'
 ];

@@ -11,7 +11,7 @@
 
                 <th class="px-4 py-2">{{ __('history.time') }}</th>
                 <th class="px-4 py-2">{{ __('history.place') }}</th>
-                <th class="px-4 py-2"></th> 
+                <th class="px-4 py-2 w-2"></th> 
             </tr>
         </thead>
         <tbody>
@@ -29,7 +29,7 @@
                     <td class="px-4 py-2">{{ $test->created_at->format('Y-m-d H:i') }}</td>
                     <td class="px-4 py-2">Mesto, Krajina</td>
                     
-                    <td class="px-4 py-2">
+                    <td class="px-4 py-2 w-2">
                         <button class="text-xs font-medium py-1 px-3 rounded-md bg-[#dcf0ff] hover:bg-[#bde5ff] dark:bg-[#1e2b3a] text-[#1e3a5f] dark:text-[#9ec9ff]">
                             {{ __('history.details-btn') }}
                         </button>

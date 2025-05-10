@@ -35,6 +35,17 @@
 
     @include('history.tables.questions')
 
+    <div class="flex justify-center mt-4">
+        <form method="POST" action="">
+            @csrf
+            @method('DELETE')
+            <button type="submit"
+                class="text-slate-800 dark:text-gray-100 text-sm font-semibold rounded-md transition duration-200">
+                <i class="fas fa-trash-alt mr-1"></i> {{ __('history.clear-history-btn') }}
+            </button>
+        </form>
+    </div>
+
 </div>
 
 @endsection

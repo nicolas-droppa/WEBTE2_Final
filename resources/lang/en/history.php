@@ -18,6 +18,7 @@ return [
     'question-count' => 'Times answered',
     'question-success-rate' => 'Success rate',
     'question-avg-time' => 'Average time',
-    'questions-export-btn' => 'Download question statistics into CSV file'
-    'tests-export-btn' => 'Download overview into CSV file'
+    'questions-export-btn' => 'Download question statistics into CSV file',
+    'tests-export-btn' => 'Download overview into CSV file',
+    'clear-history-btn' => 'Clear history TODO'
 ];
