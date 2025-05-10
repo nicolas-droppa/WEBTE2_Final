@@ -21,24 +21,7 @@ class HistoryController extends Controller
 
         $tests = Test::get();
 
-
-        $query = Question::with(['answers', 'tags']);
-
-        if ($search = $request->input('search')) {
-            $query->where('assignment_en', 'like', "%$search%")
-                ->orWhere('assignment_sk', 'like', "%$search%");
-        }
-
-        if ($tagIds = $request->input('tags')) {
-            foreach ($tagIds as $tagId) {
-                $query->whereHas('tags', function ($q) use ($tagId) {
-                    $q->where('tags.id', $tagId);
-                });
-            }
-        }
-
-        $questions = $query->get();
-
+        $questions = Question::get();
 
         return view('history.index', compact('tests', 'questions'));
     }
@@ -51,5 +34,15 @@ class HistoryController extends Controller
     public function exportTests()
     {
         return Excel::download(new TestExport, 'tests.csv');
+    }
+
+    public function showTest($id)
+    {
+        $test = Test::with(['user', 'questions.answers', 'questions.tags'])->findOrFail($id);
+
+        $questions = Question::get();
+
+        return view('history.tests.show', compact('test', 'questions'));
+
     }
 }

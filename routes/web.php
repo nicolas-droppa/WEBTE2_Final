@@ -66,6 +66,7 @@ Route::middleware([SetLocale::class])->group(function () {
     });
 
     Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
+    Route::get('/history/tests/{id}', [HistoryController::class, 'showTest'])->name('history.tests.show');
     Route::get('/history/export-questions', [HistoryController::class, 'exportQuestions'])->name('export-questions');
     Route::get('/history/export-test', [HistoryController::class, 'exportTests'])->name('export-tests');
 
