@@ -14,4 +14,17 @@ return [
     'edit' => 'Upraviť',
     'delete' => 'Odstrániť',
     'delete_confirm' => 'Naozaj chcete odstrániť túto otázku?',
+
+    'create_title'    => 'Vytvoriť novú otázku',
+    'back_to_list'    => 'Späť na zoznam otázok',
+    'assignment_sk'   => 'Zadanie (SK)',
+    'assignment_en'   => 'Zadanie (EN)',
+    'multi_choice'    => 'Viacero správnych odpovedí?',
+    'tags_label'      => 'Tagy',
+    'add_tag'         => 'Pridať tag',
+    'answers_label'   => 'Odpovede',
+    'answer_placeholder' => 'Text odpovede',
+    'is_correct'      => 'Správna odpoveď?',
+    'add_answer'      => 'Pridať odpoveď',
+    'save_button'     => 'Uložiť otázku',
 ];
