@@ -9,15 +9,12 @@ use Illuminate\Support\Facades\App;
 
 class ManualController extends Controller
 {
-    //
-    public function downloadManual(Request $request)
+   public function downloadManual(Request $request)
     {
-
         $locale = $request->get('lang', app()->getLocale());
         App::setLocale($locale);
 
-        $pdf = Pdf::loadView('manual.manual');
+        $pdf = Pdf::loadView('manual.manual', ['pdf' => true]);
         return $pdf->download('m3th-guide.pdf');
     }
-
 }
