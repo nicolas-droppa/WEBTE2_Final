@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ManualController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Middleware\SetLocale;
+use App\Http\Middleware\IsAdmin;
 
 Route::get('lang/{locale}', function ($locale) {
     if (in_array($locale, ['en', 'sk'])) {
@@ -62,6 +64,13 @@ Route::middleware([SetLocale::class])->group(function () {
 
         Route::resource('questions', QuestionController::class);
     });
+
+    Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
+    Route::get('/history/tests/{id}', [HistoryController::class, 'showTest'])->name('history.tests.show');
+    Route::get('/history/questions/{id}', [HistoryController::class, 'showQuestion'])->name('history.questions.show');
+    Route::get('/history/export-questions', [HistoryController::class, 'exportQuestions'])->name('export-questions');
+    Route::get('/history/export-test', [HistoryController::class, 'exportTests'])->name('export-tests');
+
 });
 
 Route::get('/manual/download', [ManualController::class, 'downloadManual'])->name('manual.download');
