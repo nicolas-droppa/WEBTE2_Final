@@ -67,15 +67,13 @@ Route::middleware([SetLocale::class])->group(function () {
 
     Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
     Route::get('/history/tests/{id}', [HistoryController::class, 'showTest'])->name('history.tests.show');
+    Route::get('/history/questions/{id}', [HistoryController::class, 'showQuestion'])->name('history.questions.show');
     Route::get('/history/export-questions', [HistoryController::class, 'exportQuestions'])->name('export-questions');
     Route::get('/history/export-test', [HistoryController::class, 'exportTests'])->name('export-tests');
 
 });
 
 Route::get('/manual/download', [ManualController::class, 'downloadManual'])->name('manual.download');
-
-
-
 
 Route::middleware([SetLocale::class])->group(function () {
     require __DIR__.'/auth.php';

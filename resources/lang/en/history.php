@@ -20,5 +20,15 @@ return [
     'question-avg-time' => 'Average time',
     'questions-export-btn' => 'Download question statistics into CSV file',
     'tests-export-btn' => 'Download overview into CSV file',
-    'clear-history-btn' => 'Clear history TODO'
+    'clear-history-btn' => 'Clear history TODO',
+    'question-statistics' => 'Statistics',
+    'question-detail-heading' => 'Question Details',
+    'question-assignment' => 'Assignment',
+    'question-tags' => 'Tags',
+    'test-details-heading' => 'Test Details',
+    'questions-heading' => 'Questions',
+    'questions-answered' => 'Answered',
+    'questions-correct' => 'Correctly',
+    'questions-incorrect' => 'Incorrectly',
+
 ];

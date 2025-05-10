@@ -20,5 +20,15 @@ return [
     'question-avg-time' => 'Priemerný čas riešenia',
     'questions-export-btn' => 'Stiahnuť štatistiku otázok do CSV súboru',
     'tests-export-btn' => 'Stiahnuť prehľad testov do CSV súboru',
-    'clear-history-btn' => 'Vymazať históriu TODO'
+    'clear-history-btn' => 'Vymazať históriu TODO',
+    'question-statistics' => 'Štatistika',
+    'question-detail-heading' => 'Detaily Otázky',
+    'question-assignment' => 'Zadanie',
+    'question-tags' => 'Tagy',
+    'test-details-heading' => 'Detaily testu',
+    'questions-heading' => 'Otázky',
+    'questions-answered' => 'Odpovedal',
+    'questions-correct' => 'Správne',
+    'questions-incorrect' => 'Nesprávne',
+
 ];
