@@ -19,7 +19,7 @@
                 <tr class="border-b hover:bg-gray-50 dark:border-[#2a2a2a] dark:md:hover:bg-[#2e2e2e]">
                     {{-- <td class="px-4 py-2">{{$q->id}}</td> --}}
                     <td class="px-4 py-2">
-                        <div class="max-w-[320px] scrollbar-hide overflow-hidden turncate text-[10px]">
+                        <div class="max-w-[320px] overflow-y-hidden overflow-x-auto text-[10px]">
                             {!! '$' . $q->{'assignment_' . $lang} . '$' !!}
                         </div>
                     </td> 

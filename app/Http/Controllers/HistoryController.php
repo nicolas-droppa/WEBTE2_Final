@@ -10,7 +10,12 @@ class HistoryController extends Controller
 {
     public function index(Request $request)
     {
+        if (!auth()->user()->isAdmin) {
+            return redirect('/');
+        } 
+
         $tests = Test::get();
+
 
         $query = Question::with(['answers', 'tags']);
 

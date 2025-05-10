@@ -8,6 +8,7 @@ use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ManualController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Middleware\SetLocale;
+use App\Http\Middleware\IsAdmin;
 
 Route::get('lang/{locale}', function ($locale) {
     if (in_array($locale, ['en', 'sk'])) {
@@ -65,6 +66,7 @@ Route::middleware([SetLocale::class])->group(function () {
     });
 
     Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
+
 });
 
 Route::get('/manual/download', [ManualController::class, 'downloadManual'])->name('manual.download');
