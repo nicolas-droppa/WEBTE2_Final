@@ -25,7 +25,7 @@ Route::get('lang/{locale}', function ($locale) {
     }
 
     return redirect()->to($newUrl);
-})->name('set-language'); 
+})->name('set-language');
 
 Route::middleware([SetLocale::class])->group(function () {
     // HOME
@@ -70,13 +70,10 @@ Route::middleware([SetLocale::class])->group(function () {
         Route::get('/history/export-questions', [HistoryController::class, 'exportQuestions'])->name('export-questions');
         Route::get('/history/export-test', [HistoryController::class, 'exportTests'])->name('export-tests');
     });
-
-    
-
 });
 
 Route::get('/manual/download', [ManualController::class, 'downloadManual'])->name('manual.download');
 
 Route::middleware([SetLocale::class])->group(function () {
-    require __DIR__.'/auth.php';
+    require __DIR__ . '/auth.php';
 });
