@@ -40,7 +40,7 @@
         <p class="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-2">
             {{ __('history.question-assignment') }}
         </p>
-        <p class="text-slate-700 dark:text-slate-300 italic">
+        <p class="text-slate-700 dark:text-slate-300 italic text-xs">
             {!! '$' . $question->{'assignment_' . $lang} . '$' !!}
         </p>
 
@@ -67,7 +67,7 @@
                 <div class="flex items-start gap-2 p-3 rounded-lg
                     {{ $answer->isCorrect ? 'bg-green-100 dark:bg-green-900/30' : 'bg-slate-50 dark:bg-[#2a2a2a]' }}">
                     <span class="text-slate-800 dark:text-slate-100 text-sm">
-                        {!! '$' . $answer->answer . '$' !!}
+                        {!! '$' . $answer->{'answer_' . app()->getLocale()} . '$' !!}
                     </span>
                     @if($answer->isCorrect)
                         <i class="fas fa-check text-green-600 mt-0.5"></i>

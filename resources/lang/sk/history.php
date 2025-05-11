@@ -30,5 +30,6 @@ return [
     'questions-answered' => 'Odpovedal',
     'questions-correct' => 'Správne',
     'questions-incorrect' => 'Nesprávne',
-
+    'question-time' => 'Zodpovedané po',
+    'seconds' => 'sekundách'
 ];

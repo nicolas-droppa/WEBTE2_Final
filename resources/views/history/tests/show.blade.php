@@ -56,7 +56,7 @@
                     <div class="flex items-center gap-2 p-2 rounded-lg
                         {{ $answer->isCorrect ? 'bg-green-100 dark:bg-green-900/30' : 'bg-slate-50 dark:bg-[#2a2a2a]' }}">
                         <span class="text-slate-800 dark:text-slate-100 text-sm">
-                            {!! '$' . $answer->answer . '$' !!}
+                            {!! '$' . $answer->{'answer_' . app()->getLocale()} . '$' !!}
                         </span>
                         @if($answer->isCorrect)
                             <i class="fas fa-check text-green-600"></i>
@@ -65,8 +65,9 @@
                 @endforeach
             </div>
 
-            <!-- Answered Correctly -->
-            <p class="text-sm">
+            <!-- Answered Correctly and Time -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-sm text-slate-700">
+            <p>
                 <strong>{{ __('history.questions-answered') }}:</strong>
                 @if ($question->pivot->isCorrect)
                     <span class="text-green-600 dark:text-green-400">{{ __('history.questions-correct') }}</span>
@@ -74,6 +75,12 @@
                     <span class="text-red-600 dark:text-red-400">{{ __('history.questions-incorrect') }}</span>
                 @endif
             </p>
+            |
+            <p>
+                {{ __('history.question-time') }}
+                <strong>{{ $question->pivot->time }}</strong> {{ __('history.seconds') }}
+            </p>
+        </div>
         </div>
     @endforeach
 </div>

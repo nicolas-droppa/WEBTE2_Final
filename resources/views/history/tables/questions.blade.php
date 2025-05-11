@@ -6,8 +6,8 @@
     <table class="min-w-full bg-white text-left text-sm text-slate-800 dark:text-slate-200 dark:bg-[#343434] shadow rounded-lg">
         <thead class="bg-gray-100 text-slate-700 dark:text-slate-300 dark:bg-[#2a2a2a]">
             <tr>
-                <th class="px-4 py-2">{{ __('history.question-text') }}</th>
                 {{-- <th class="px-4 py-2">{{ __('history.question-id') }}</th> --}}
+                <th class="px-4 py-2">{{ __('history.question-text') }}</th>
                 <th class="px-4 py-2">{{ __('history.question-tag') }}</th>
                 <th class="px-4 py-2">{{ __('history.question-count') }}</th>
                 <th class="px-4 py-2">{{ __('history.question-success-rate') }}</th>
@@ -39,7 +39,7 @@
                         {{ $q->tests->count() }}
                     </td>
                     <td class="px-4 py-2">
-                        {{ round( ( ($q->tests->where('pivot.isCorrect', true)->count()) / ($q->tests->count()) ) * 100 )}} %
+                        {{ $q->tests->count() > 0 ? round( ($q->tests->where('pivot.isCorrect', true)->count() / $q->tests->count()) * 100 ) . ' %' : '-' }}
                     </td>
                     <td class="px-4 py-2">
                         @php

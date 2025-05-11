@@ -30,5 +30,7 @@ return [
     'questions-answered' => 'Answered',
     'questions-correct' => 'Correctly',
     'questions-incorrect' => 'Incorrectly',
+    'question-time' => 'Answered after',
+    'seconds' => 'seconds'
 
 ];
