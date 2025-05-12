@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->string('assignment_sk');
-            $table->string('assignment_en');
+            $table->string('assignment_sk', 1028);
+            $table->string('assignment_en', 1028);
             $table->boolean('isMultiChoice')->default(false);
             $table->timestamps();
         });

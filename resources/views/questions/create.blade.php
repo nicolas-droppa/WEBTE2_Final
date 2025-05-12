@@ -122,7 +122,7 @@
 <script src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js"></script>
 
 <script>
-    let answerCount = 0;
+    let answerCount = 1;
 
     function attachAnswerPreviewEvents(container) {
         const inputSk = container.querySelector('.answer-sk-input');
