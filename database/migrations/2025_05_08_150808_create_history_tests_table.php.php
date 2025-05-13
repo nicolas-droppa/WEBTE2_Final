@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('questions', function (Blueprint $table) {
+        Schema::create('history_tests', function (Blueprint $table) {
             $table->id();
-            $table->string('assignment_sk', 1028);
-            $table->string('assignment_en', 1028);
-            $table->boolean('isMultiChoice')->default(false);
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('test_id')->constrained()->onDelete('cascade');
+            $table->integer('score')->nullable();
+            $table->string('city');
+            $table->string('state');
             $table->timestamps();
         });
     }

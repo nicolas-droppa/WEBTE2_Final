@@ -63,7 +63,7 @@
                     <div class="answer-preview mt-2 mb-2 text-gray-700 dark:text-gray-200"></div>
                     <input type="hidden" name="answers[{{ $index }}][id]" value="{{ $answer['id'] }}">
                     <div class="flex items-center space-x-2">
-                        <input type="hidden" name="answers[0][isCorrect]" value="0">
+                        <input type="hidden" name="answers[{{ $index }}][isCorrect]" value="0">
                         <input id="answers[{{ $index }}][isCorrect]" type="checkbox" name="answers[{{ $index }}][isCorrect]" value="1" {{ old('answers.' . $index . '.isCorrect', $answer->isCorrect) ? 'checked' : '' }} class="rounded border-gray-300 dark:border-gray-500 text-green-600 focus:ring-green-500 dark:focus:ring-green-500">
                         <label for="answers[{{ $index }}][isCorrect]" class="text-sm text-gray-700 dark:text-gray-300">Is Correct?</label>
                     </div>
