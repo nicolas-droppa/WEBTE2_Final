@@ -3,29 +3,45 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Question extends Model
 {
-    protected $fillable = ['assignment_sk', 'assignment_en', 'isMultiChoice'];
+    protected $fillable = ['assignment_sk','assignment_en','isMultiChoice'];
 
-    protected $casts = [
-        'isMultiChoice' => 'boolean',
-    ];
+    public function tests()
+    {
+        return $this->belongsToMany(
+            Test::class,
+            'test_question',
+            'question_id',
+            'test_id'
+        );
+    }
 
     public function answers()
     {
-        return $this->hasMany(Answer::class);
+        return $this->hasMany(Answer::class, 'question_id');
     }
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(
+            Tag::class,
+            'question_tag',
+            'question_id',
+            'tag_id'
+        );
     }
 
-    public function tests(): BelongsToMany
+    public function historyTests()
     {
-        return $this->belongsToMany(Test::class, 'test_question')
-            ->withPivot('isCorrect', 'time');
+        return $this->belongsToMany(
+            HistoryTest::class,
+            'history_test_question',
+            'question_id',
+            'history_test_id'
+        )
+        ->withPivot(['answer_id','written_answer','time']);
+        //->withTimestamps();
     }
 }
