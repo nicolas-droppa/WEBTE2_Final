@@ -31,5 +31,8 @@ return [
     'questions-correct' => 'Správne',
     'questions-incorrect' => 'Nesprávne',
     'question-time' => 'Zodpovedané po',
-    'seconds' => 'sekundách'
+    'seconds' => 'sekundách',
+    'test-title' => 'Názov testu',
+    'city' => 'Mesto',
+    'state' => 'Štát'
 ];
