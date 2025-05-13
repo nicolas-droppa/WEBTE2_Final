@@ -3,21 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Test extends Model
 {
-    protected $fillable = ['user_id', 'score'];
+    protected $fillable = ['title'];
 
-    public function user(): BelongsTo
+    public function questions()
     {
-        return $this->belongsTo(User::class);
+        // pivot table: test_question
+        return $this->belongsToMany(
+            Question::class,
+            'test_question',   // pivot table
+            'test_id',         // this model’s FK on pivot
+            'question_id'      // related model’s FK on pivot
+        );
     }
 
-    public function questions(): BelongsToMany
+    public function historyTests()
     {
-        return $this->belongsToMany(Question::class, 'test_question')
-            ->withPivot('isCorrect', 'time');
+        return $this->hasMany(HistoryTest::class, 'test_id');
     }
 }

@@ -13,9 +13,9 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasApiTokens;
 
-    public function tests()
+    public function historyTests()
     {
-        return $this->hasMany(Test::class);
+        return $this->hasMany(HistoryTest::class, 'user_id');
     }
 
     /**

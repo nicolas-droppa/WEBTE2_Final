@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\Test;
+use App\Models\HistoryTest;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
@@ -10,27 +10,35 @@ class TestExport implements FromCollection, WithHeadings
 {
     public function collection()
     {
-        return Test::with('user', 'questions')->get()->map(function ($test) {
-            $avgTime = $test->questions->avg('pivot.time');
+        // load the user, plus the pivot data for questions so we can avg the time
+        return HistoryTest::with('user','questions')
+            ->get()
+            ->map(function (HistoryTest $attempt) {
+                // average time across all questions in this specific test-attempt
+                $avgTime = $attempt->questions->avg('pivot.time');
 
-            return [
-                $test->user->name,
-                $test->score,
-                $avgTime ? round($avgTime, 2) . ' s' : '-',
-                $test->created_at->format('Y-m-d H:i'),
-                'Mesto, Krajina',
-            ];
-        });
+                return [
+                    'User'      => $attempt->user->name,
+                    'Test Title'=> $attempt->test->title,
+                    'Score'     => $attempt->score,
+                    'Avg Time'  => $avgTime ? round($avgTime, 2).' s' : '-',
+                    'Date'      => $attempt->created_at->format('Y-m-d H:i'),
+                    'City'      => $attempt->city,
+                    'State'     => $attempt->state,
+                ];
+            });
     }
 
     public function headings(): array
     {
         return [
             __('history.user-name'),
+            __('history.test-title'),
             __('history.score'),
-            __('history.avg-time'),
+            __('history.question-avg-time'),
             __('history.time'),
-            __('history.place'),
+            __('history.city'),
+            __('history.state'),
         ];
     }
 }

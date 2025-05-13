@@ -10,17 +10,26 @@ class QuestionExport implements FromCollection, WithHeadings
 {
     public function collection()
     {
-        return Question::all()->map(function ($question) {
-            $tags = $question->tags->pluck('name_' . app()->getLocale())->implode(', ');
+        return Question::with('tags','historyTests')->get()->map(function ($question) {
+            // tags in current locale
+            $tags = $question->tags
+                             ->pluck('name_' . app()->getLocale())
+                             ->implode(', ');
+
+            // use historyTests instead of tests
+            $attempts     = $question->historyTests;
+            $count        = $attempts->count();
+            $correctCount = $attempts->where('pivot.isCorrect', true)->count();
+            $avgTime      = $attempts->avg('pivot.time');
 
             return [
                 $question->{'assignment_' . app()->getLocale()},
                 $tags,
-                $question->tests->count(),
-                $question->tests->count() > 0
-                ? round(($question->tests->where('pivot.isCorrect', true)->count() / $question->tests->count()) * 100) . ' %'
-                : 'N/A',
-                $this->formatAvgTime($question),
+                $count,
+                $count
+                    ? round($correctCount / $count * 100) . ' %'
+                    : 'N/A',
+                $avgTime ? round($avgTime, 2) . ' s' : '-',
             ];
         });
     }
@@ -34,11 +43,5 @@ class QuestionExport implements FromCollection, WithHeadings
             __('history.question-success-rate'),
             __('history.question-avg-time'),
         ];
-    }
-
-    private function formatAvgTime($question)
-    {
-        $avgTime = $question->tests->avg('pivot.time');
-        return $avgTime ? round($avgTime, 2) . ' s' : '-';
     }
 }
