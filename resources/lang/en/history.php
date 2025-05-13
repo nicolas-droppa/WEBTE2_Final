@@ -31,6 +31,8 @@ return [
     'questions-correct' => 'Correctly',
     'questions-incorrect' => 'Incorrectly',
     'question-time' => 'Answered after',
-    'seconds' => 'seconds'
-
+    'seconds' => 'seconds',
+    'test-title' => 'Title of the test',
+    'city' => 'City',
+    'state' => 'State'
 ];
