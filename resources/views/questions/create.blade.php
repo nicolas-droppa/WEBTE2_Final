@@ -44,11 +44,23 @@
             <div id="assignment_en_preview" class="mt-2 text-slate-700 dark:text-slate-200 text-sm"></div>
         </div>
 
-        <div class="flex items-center mb-6 space-x-2">
+        <!-- Multi/Single Choice Toggle -->
+        <div class="mb-6">
             <input type="hidden" name="isMultiChoice" value="0">
-            <input type="checkbox" id="multiChoice" name="isMultiChoice" value="1" {{ old('isMultiChoice') ? 'checked' : '' }} class="rounded border-slate-300 dark:border-slate-500 text-blue-500 focus:ring-blue-400 dark:focus:ring-blue-600">
-            <label for="multiChoice" class="text-sm text-slate-700 dark:text-slate-300">{{ __('questions.multi_choice') }}</label>
+            <button type="button"
+                id="toggleChoice"
+                class="group px-4 py-2 rounded-md border transition duration-200 w-fit
+                    bg-[#e6f4ff] dark:bg-[#1e2b3a] border-[#54b5ff] dark:border-[#356788] text-[#1e3a5f] dark:text-[#9ec9ff]
+                    hover:bg-[#d5ecfd] dark:hover:bg-[#253448] text-sm font-semibold select-none"
+                aria-pressed="{{ old('isMultiChoice') ? 'true' : 'false' }}"
+            >
+                <span id="choiceLabel">
+                    {{ old('isMultiChoice') ? __('questions.multi_choice') : __('questions.single_choice') }}
+                </span>
+            </button>
+            <input type="checkbox" name="isMultiChoice" id="isMultiChoice" value="1" class="hidden" {{ old('isMultiChoice') ? 'checked' : '' }}>
         </div>
+
 
         <div id="tags_container" class="space-y-2 mb-4">
             <h3 class="text-lg font-semibold text-slate-700 dark:text-slate-100 mb-2">
@@ -82,14 +94,29 @@
                 <input type="text" name="answers[0][answer_en]" placeholder="Answer (EN)" class="answer-input answer-en-input w-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#2a2a2a] text-slate-800 dark:text-white p-2 rounded-md mb-2">
                 <div class="answer-en-preview text-slate-700 dark:text-slate-200 text-sm mb-2"></div>
 
-                <div class="flex items-center space-x-2">
+                <div class="flex items-center mb-4">
                     <input type="hidden" name="answers[0][isCorrect]" value="0">
-                    <input id="answers[0][isCorrect]" type="checkbox" name="answers[0][isCorrect]" value="1" class="rounded border-slate-300 dark:border-slate-500 text-green-600 focus:ring-green-400 dark:focus:ring-green-500">
-                    <label for="answers[0][isCorrect]" class="text-sm text-slate-700 dark:text-slate-300">{{ __('questions.is_correct') }}</label>
+                    <label for="isCorrect-0" class="inline-flex items-center cursor-pointer group">
+                        <input type="checkbox" id="isCorrect-0" name="answers[0][isCorrect]" value="1"
+                            class="sr-only peer" {{ old('answers.0.isCorrect') ? 'checked' : '' }}
+                            onchange="toggleCorrectText(this)">
+                        <div class="w-5 h-5 mr-3 flex items-center justify-center border-2 rounded-md
+                                    border-slate-300 dark:border-slate-600 bg-white dark:bg-[#2a2a2a]
+                                    peer-checked:bg-green-500 peer-checked:border-green-500
+                                    transition duration-200">
+                            <svg class="w-3 h-3 text-white hidden peer-checked:block" fill="none" stroke="currentColor"
+                                stroke-width="3" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <span id="correctLabel-0" class="text-sm text-slate-700 dark:text-slate-300 select-none">
+                            {{ old('answers.0.isCorrect') ? __('questions.correct') : __('questions.incorrect') }}
+                        </span>
+                    </label>
                 </div>
 
                 <button type="button" class="remove-answer absolute bottom-2 right-2 text-sm text-red-500 hover:text-red-700 dark:hover:text-red-400">
-                    ✖
+                    <i class="fas fa-trash"></i>
                 </button>
             </div>
         </div>
@@ -122,7 +149,36 @@
 <script src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js"></script>
 
 <script>
-    let answerCount = 0;
+    function toggleCorrectText(checkbox) {
+        const id = checkbox.id.replace("isCorrect", "correctLabel");
+        const label = document.getElementById(id);
+
+        if (!label) return;
+
+        const correct = @json(__('questions.correct'));
+        const incorrect = @json(__('questions.incorrect'));
+
+        label.textContent = checkbox.checked ? correct : incorrect;
+    }
+</script>
+
+<script>
+    document.getElementById('toggleChoice').addEventListener('click', function () {
+        const checkbox = document.getElementById('isMultiChoice');
+        const label = document.getElementById('choiceLabel');
+
+        checkbox.checked = !checkbox.checked;
+
+        label.textContent = checkbox.checked
+            ? @json(__('questions.multi_choice'))
+            : @json(__('questions.single_choice'));
+
+        this.setAttribute('aria-pressed', checkbox.checked ? 'true' : 'false');
+    });
+</script>
+
+<script>
+    let answerCount = 1;
 
     function attachAnswerPreviewEvents(container) {
         const inputSk = container.querySelector('.answer-sk-input');
@@ -144,33 +200,51 @@
     document.querySelectorAll('.answer').forEach(attachAnswerPreviewEvents);
 
     document.getElementById("add-answer").addEventListener("click", () => {
+        const index = answerCount++;
         const container = document.createElement('div');
         container.className = "answer mb-4 border border-slate-200 dark:border-slate-600 p-4 rounded-lg bg-slate-50 dark:bg-[#2a2a2a] relative";
 
         container.innerHTML = `
-            <input type="text" name="answers[${answerCount}][answer_sk]" placeholder="Odpoveď (SK)" class="answer-input answer-sk-input w-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#2a2a2a] text-slate-800 dark:text-white p-2 rounded-md mb-2">
+            <input type="text" name="answers[${index}][answer_sk]" placeholder="Odpoveď (SK)" class="answer-input answer-sk-input w-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#2a2a2a] text-slate-800 dark:text-white p-2 rounded-md mb-2">
             <div class="answer-sk-preview text-slate-700 dark:text-slate-200 text-sm mb-2"></div>
 
-            <input type="text" name="answers[${answerCount}][answer_en]" placeholder="Answer (EN)" class="answer-input answer-en-input w-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#2a2a2a] text-slate-800 dark:text-white p-2 rounded-md mb-2">
+            <input type="text" name="answers[${index}][answer_en]" placeholder="Answer (EN)" class="answer-input answer-en-input w-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#2a2a2a] text-slate-800 dark:text-white p-2 rounded-md mb-2">
             <div class="answer-en-preview text-slate-700 dark:text-slate-200 text-sm mb-2"></div>
 
-            <div class="flex items-center space-x-2">
-                <input type="hidden" name="answers[${answerCount}][isCorrect]" value="0">
-                <input id="answers[${answerCount}][isCorrect]" type="checkbox" name="answers[${answerCount}][isCorrect]" value="1" class="rounded border-slate-300 dark:border-slate-500 text-green-600 focus:ring-green-400 dark:focus:ring-green-500">
-                <label for="answers[${answerCount}][isCorrect]" class="text-sm text-slate-700 dark:text-slate-300">{{ __('questions.is_correct') }}</label>
+            <div class="flex items-center mb-4">
+                <input type="hidden" name="answers[${index}][isCorrect]" value="0">
+                <label for="isCorrect-${index}" class="inline-flex items-center cursor-pointer group">
+                    <input type="checkbox" id="isCorrect-${index}" name="answers[${index}][isCorrect]" value="1"
+                        class="sr-only peer"
+                        onchange="toggleCorrectText(this)">
+                    <div class="w-5 h-5 mr-3 flex items-center justify-center border-2 rounded-md
+                                border-slate-300 dark:border-slate-600 bg-white dark:bg-[#2a2a2a]
+                                peer-checked:bg-green-500 peer-checked:border-green-500
+                                transition duration-200">
+                        <svg class="w-3 h-3 text-white hidden peer-checked:block" fill="none" stroke="currentColor"
+                            stroke-width="3" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <span id="correctLabel-${index}" class="text-sm text-slate-700 dark:text-slate-300 select-none">
+                        ${@json(__('questions.incorrect'))}
+                    </span>
+                </label>
             </div>
-            <button type="button" class="remove-answer absolute bottom-2 right-2 text-sm text-red-500 hover:text-red-700 dark:hover:text-red-400">✖</button>
-            `;
+
+            <button type="button" class="remove-answer absolute bottom-2 right-2 text-sm text-red-500 hover:text-red-700 dark:hover:text-red-400">
+                <i class="fas fa-trash"></i>
+            </button>
+        `;
 
         document.getElementById("answers").appendChild(container);
         attachAnswerPreviewEvents(container);
-        answerCount++;
     });
 
     // Optional: handle remove-answer click events
     document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('remove-answer')) {
-            e.target.closest('.answer').remove();
+        if (e.target.parentElement.classList.contains('remove-answer')) {
+            e.target.parentElement.closest('.answer').remove();
         }
     });
 
@@ -267,7 +341,7 @@
         div.innerHTML = `
             <input type="text" name="tags[${tagIndex}][name_en]" value="${name_en}" placeholder="Tag (EN)" class="tag-en w-1/2 p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 rounded-md" required>
             <input type="text" name="tags[${tagIndex}][name_sk]" value="${name_sk}" placeholder="Tag (SK)" class="tag-sk w-1/2 p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 rounded-md" required>
-            <button type="button" class="remove-tag text-red-500 hover:text-red-700 dark:hover:text-red-400 text-sm">✖</button>
+            <button type="button" class="remove-tag text-red-500 hover:text-red-700 dark:hover:text-red-400 text-sm"><i class="fas fa-trash"></i></button>
         `;
         document.getElementById("tag-pairs").appendChild(div);
 
