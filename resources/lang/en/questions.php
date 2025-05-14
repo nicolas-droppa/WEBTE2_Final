@@ -27,4 +27,10 @@ return [
     'is_correct' => 'Is Correct?',
     'add_answer' => 'Add Answer',
     'save_button' => 'Save Question',
+
+    'multi_choice' => 'Multiple choice',
+    'single_choice' => 'Single choice',
+    
+    'correct' => 'Správna',
+    'incorrect' => 'Nesprávna',
 ];

@@ -27,4 +27,10 @@ return [
     'is_correct'      => 'Správna odpoveď?',
     'add_answer'      => 'Pridať odpoveď',
     'save_button'     => 'Uložiť otázku',
+
+    'multi_choice' => 'Viacnásobný výber',
+    'single_choice' => 'Jednoduchý výber',
+
+    'correct' => 'Correct',
+    'incorrect' => 'Incorrect',
 ];
