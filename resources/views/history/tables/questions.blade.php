@@ -39,7 +39,7 @@
                         {{ $q->tests->count() }}
                     </td>
                     <td class="px-4 py-2">
-                        {{ $q->tests->count() > 0 ? round( ($q->tests->where('pivot.isCorrect', true)->count() / $q->tests->count()) * 100 ) . ' %' : '-' }}
+                        {{ $q->tests->count() > 0 ? round($q->tests->filter(fn($t) => $q->answers->firstWhere('id', $t->pivot->answer_id)?->isCorrect)->count() / $q->tests->count() * 100) . ' %' : '-' }}
                     </td>
                     <td class="px-4 py-2">
                         @php

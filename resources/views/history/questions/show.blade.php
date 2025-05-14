@@ -5,36 +5,37 @@
     <h1 class="text-3xl font-bold text-slate-800 dark:text-white mb-6">
         <i class="fas fa-question-circle text-[#54b5ff] mr-2"></i> {{ __('history.question-detail-heading') }}
     </h1>
-@php
-    $lang = app()->getLocale();
-    $testCount = $question->tests->count();
-    $correctCount = $question->tests->where('pivot.isCorrect', true)->count();
-    $avgTime = $question->tests->avg('pivot.time');
-@endphp
+        
+    @php
+        $lang = app()->getLocale();
+        $testCount = $question->tests->count();
+        $correctCount = $question->tests->filter(fn($t) => $question->answers->firstWhere('id', $t->pivot->answer_id)?->isCorrect)->count();
+        $avgTime = $testCount ? round($question->tests->sum('pivot.time') / $testCount, 2) : null;
+    @endphp
 
-<div class="bg-white dark:bg-[#1c1c1e] p-6 rounded-lg border border-slate-200 dark:border-[#141414] shadow mb-6">
-    <h2 class="text-lg font-semibold text-slate-800 dark:text-white mb-4">
-        {{ __('history.question-statistics') }}
-    </h2>
-    <div class="flex flex-col sm:flex-row gap-6 text-sm text-slate-600 dark:text-slate-300">
-        <div class="flex-1">
-            <p class="mb-1">{{ __('history.question-count') }}</p>
-            <p class="text-xl font-bold text-slate-900 dark:text-white">{{ $testCount }}</p>
-        </div>
-        <div class="flex-1">
-            <p class="mb-1">{{ __('history.question-success-rate') }}</p>
-            <p class="text-xl font-bold text-slate-900 dark:text-white">
-                {{ $testCount ? round(($correctCount / $testCount) * 100) : 0 }} %
-            </p>
-        </div>
-        <div class="flex-1">
-            <p class="mb-1">{{ __('history.question-avg-time') }}</p>
-            <p class="text-xl font-bold text-slate-900 dark:text-white">
-                {{ $avgTime ? round($avgTime, 2) . ' s' : '-' }}
-            </p>
+    <div class="bg-white dark:bg-[#1c1c1e] p-6 rounded-lg border border-slate-200 dark:border-[#141414] shadow mb-6">
+        <h2 class="text-lg font-semibold text-slate-800 dark:text-white mb-4">
+            {{ __('history.question-statistics') }}
+        </h2>
+        <div class="flex flex-col sm:flex-row gap-6 text-sm text-slate-600 dark:text-slate-300">
+            <div class="flex-1">
+                <p class="mb-1">{{ __('history.question-count') }}</p>
+                <p class="text-xl font-bold text-slate-900 dark:text-white">{{ $testCount }}</p>
+            </div>
+            <div class="flex-1">
+                <p class="mb-1">{{ __('history.question-success-rate') }}</p>
+                <p class="text-xl font-bold text-slate-900 dark:text-white">
+                    {{ $testCount ? round(($correctCount / $testCount) * 100) : 0 }} %
+                </p>
+            </div>
+            <div class="flex-1">
+                <p class="mb-1">{{ __('history.question-avg-time') }}</p>
+                <p class="text-xl font-bold text-slate-900 dark:text-white">
+                    {{ $avgTime ? round($avgTime, 2) . ' s' : '-' }}
+                </p>
+            </div>
         </div>
     </div>
-</div>
     {{-- Assignment --}}
     <div class="bg-white dark:bg-[#1c1c1e] shadow-md rounded-xl p-6 border border-slate-200 dark:border-[#141414] mb-6">
         <p class="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-2">

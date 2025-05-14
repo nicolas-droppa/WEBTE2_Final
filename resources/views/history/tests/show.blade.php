@@ -67,20 +67,24 @@
 
             <!-- Answered Correctly and Time -->
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-sm text-slate-700">
-            <p>
-                <strong>{{ __('history.questions-answered') }}:</strong>
-                @if ($question->pivot->isCorrect)
-                    <span class="text-green-600 dark:text-green-400">{{ __('history.questions-correct') }}</span>
-                @else
-                    <span class="text-red-600 dark:text-red-400">{{ __('history.questions-incorrect') }}</span>
-                @endif
-            </p>
-            |
-            <p>
-                {{ __('history.question-time') }}
-                <strong>{{ $question->pivot->time }}</strong> {{ __('history.seconds') }}
-            </p>
-        </div>
+                <p>
+                    <strong>{{ __('history.questions-answered') }}:</strong>
+
+                    @php
+                        $selectedAnswer = $question->answers->firstWhere('id', $question->pivot->answer_id);
+                    @endphp
+
+                    @if ($selectedAnswer && $selectedAnswer->isCorrect)
+                        <span class="text-green-600 dark:text-green-400">{{ __('history.questions-correct') }}</span>
+                    @else
+                        <span class="text-red-600 dark:text-red-400">{{ __('history.questions-incorrect') }}</span>
+                    @endif
+                </p>
+                <p>
+                    {{ __('history.question-time') }}
+                    <strong>{{ $question->pivot->time }}</strong> {{ __('history.seconds') }}
+                </p>
+            </div>
         </div>
     @endforeach
 </div>
