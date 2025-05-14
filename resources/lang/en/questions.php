@@ -31,6 +31,20 @@ return [
     'multi_choice' => 'Multiple choice',
     'single_choice' => 'Single choice',
     
-    'correct' => 'Správna',
-    'incorrect' => 'Nesprávna',
+    'correct' => 'Correct',
+    'incorrect' => 'Incorrect',
+
+    'edit_title' => 'Edit Question',
+    'assignment_sk' => 'Assignment (SK)',
+    'assignment_en' => 'Assignment (EN)',
+    'multi_choice' => 'Multiple Choice',
+    'single_choice' => 'Single Choice',
+    'tags_label' => 'Tags',
+    'add_tag' => 'Add Tag',
+    'answers_label' => 'Answers',
+    'correct' => 'Correct',
+    'incorrect' => 'Incorrect',
+    'save_button' => 'Save Question',
+    'back_to_list' => 'Back to List',
+    'add_answer' => 'Add Answer',
 ];
