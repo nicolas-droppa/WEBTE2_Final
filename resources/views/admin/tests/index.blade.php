@@ -72,7 +72,6 @@
                 </form>
             </div>
         </div>
-        <!-- You could add summary or other test info here -->
     </div>
     @endforeach
 
