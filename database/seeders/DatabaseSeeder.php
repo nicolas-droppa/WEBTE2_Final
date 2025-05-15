@@ -24,5 +24,7 @@ class DatabaseSeeder extends Seeder
             TagsSeeder::class,
             QuestionTagSeeder::class,
         ]);
+        $this->call(\Database\Seeders\Tables\TestQuestionSeeder::class);
+        $this->call(\Database\Seeders\Tables\TestsSeeder::class);
     }
 }
