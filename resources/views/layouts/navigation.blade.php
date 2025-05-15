@@ -37,16 +37,18 @@
                     </a>
                 @endif
 
-                {{-- Tests / Testy --}}
-                <a href="{{ route('welcome') }}"
-                class="pb-1 border-b-2 transition duration-300
-                    @if(request()->routeIs('welcome'))
-                        border-[#54b5ff] text-slate-800 dark:text-white
-                    @else
-                        border-transparent text-slate-700 dark:text-gray-300 hover:border-[#54b5ff] hover:text-[#54b5ff] dark:hover:border-[#78cfff] dark:hover:text-[#78cfff]
-                    @endif">
-                    {{ app()->getLocale() === 'sk' ? 'Testy' : 'Tests' }}
-                </a>
+                @if(auth()->check() && auth()->user()->isAdmin)
+                    {{-- Tests / Testy --}}
+                    <a href="{{ route('tests.index') }}"
+                    class="pb-1 border-b-2 transition duration-300
+                        @if(request()->routeIs('tests.index'))
+                            border-[#54b5ff] text-slate-800 dark:text-white
+                        @else
+                            border-transparent text-slate-700 dark:text-gray-300 hover:border-[#54b5ff] hover:text-[#54b5ff] dark:hover:border-[#78cfff] dark:hover:text-[#78cfff]
+                        @endif">
+                        {{ app()->getLocale() === 'sk' ? 'Testy' : 'Tests' }}
+                    </a>
+                @endif
 
                 @guest
                 {{-- Login / Prihlásiť sa --}}

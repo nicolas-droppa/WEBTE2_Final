@@ -10,6 +10,8 @@ use App\Http\Controllers\HistoryController;
 use App\Http\Middleware\SetLocale;
 use App\Http\Middleware\IsAdmin;
 
+use App\Http\Controllers\TestController;
+
 Route::get('lang/{locale}', function ($locale) {
     if (in_array($locale, ['en', 'sk'])) {
         App::setLocale($locale);
@@ -69,6 +71,8 @@ Route::middleware([SetLocale::class])->group(function () {
         Route::get('/history/questions/{id}', [HistoryController::class, 'showQuestion'])->name('history.questions.show');
         Route::get('/history/export-questions', [HistoryController::class, 'exportQuestions'])->name('export-questions');
         Route::get('/history/export-test', [HistoryController::class, 'exportTests'])->name('export-tests');
+
+        Route::resource('tests', TestController::class);
     });
 });
 
