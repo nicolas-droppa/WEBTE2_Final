@@ -8,7 +8,6 @@ use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ManualController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Middleware\SetLocale;
-use App\Http\Middleware\IsAdmin;
 
 use App\Http\Controllers\TestController;
 
