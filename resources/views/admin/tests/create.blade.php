@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 <div class="max-w-5xl mx-auto px-6 mt-16 mb-20">
@@ -20,14 +20,14 @@
             <i class="fas fa-plus mr-2 text-[#54b5ff]"></i>
             {{ __('tests.create_title') }}
         </h1>
-        <a href="{{ route('tests.index') }}"
+        <a href="{{ route('admin.tests.index') }}"
            class="bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-white px-4 py-2 rounded hover:bg-slate-300 dark:hover:bg-slate-600 transition shadow flex items-center gap-2">
             <i class="fas fa-arrow-left"></i> {{ __('tests.back_to_list') }}
         </a>
     </div>
 
     {{-- Create Test Form --}}
-    <form action="{{ route('tests.store') }}" method="POST" id="test-form"
+    <form action="{{ route('admin.tests.store') }}" method="POST" id="test-form"
           class="bg-white dark:bg-[#1c1c1e] p-8 rounded-xl shadow-md border border-slate-200 dark:border-[#141414] space-y-6">
         @csrf
 

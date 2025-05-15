@@ -24,7 +24,7 @@ class HistoryController extends Controller
         // alias historyTests → tests so your old blade still uses $q->tests
         $qs->each(fn($q) => $q->setRelation('tests', $q->historyTests));
 
-        return view('history.index', [
+        return view('admin.history.index', [
             'tests'     => $tests,
             'questions' => $qs,
         ]);
@@ -63,7 +63,7 @@ class HistoryController extends Controller
         $test      = $attempt;
         $questions = $attempt->questions;
 
-        return view('history.tests.show', compact('test','questions'));
+        return view('admin.history.tests.show', compact('test','questions'));
     }
 
     /** GET /history/questions/{id} */
@@ -77,7 +77,7 @@ class HistoryController extends Controller
         // alias historyTests → tests so your view’s $question->tests works
         $question->setRelation('tests', $question->historyTests);
 
-        return view('history.questions.show', compact('question'));
+        return view('admin.history.questions.show', compact('question'));
     }
 
     /** simple admin check pulled into one place */

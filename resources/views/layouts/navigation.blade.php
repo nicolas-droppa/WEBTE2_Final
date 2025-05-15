@@ -24,31 +24,19 @@
                     {{ app()->getLocale() === 'sk' ? 'Návod' : 'Guide' }}
                 </a>
 
-                @if(auth()->check() && auth()->user()->isAdmin)
-                    {{-- Questions / Otázky --}}
-                    <a href="{{ route('questions.index') }}"
+                @auth
+                @if(auth()->user()->isAdmin)
+                    <a href="{{ route('admin.dashboard') }}"
                     class="pb-1 border-b-2 transition duration-300
-                        @if(request()->routeIs('questions.index'))
+                        @if(request()->routeIs('admin.dashboard'))
                             border-[#54b5ff] text-slate-800 dark:text-white
                         @else
                             border-transparent text-slate-700 dark:text-gray-300 hover:border-[#54b5ff] hover:text-[#54b5ff] dark:hover:border-[#78cfff] dark:hover:text-[#78cfff]
                         @endif">
-                        {{ app()->getLocale() === 'sk' ? 'Otázky' : 'Questions' }}
+                        {{ app()->getLocale() === 'sk' ? 'Admin panel' : 'Admin panel' }}
                     </a>
                 @endif
-
-                @if(auth()->check() && auth()->user()->isAdmin)
-                    {{-- Tests / Testy --}}
-                    <a href="{{ route('tests.index') }}"
-                    class="pb-1 border-b-2 transition duration-300
-                        @if(request()->routeIs('tests.index'))
-                            border-[#54b5ff] text-slate-800 dark:text-white
-                        @else
-                            border-transparent text-slate-700 dark:text-gray-300 hover:border-[#54b5ff] hover:text-[#54b5ff] dark:hover:border-[#78cfff] dark:hover:text-[#78cfff]
-                        @endif">
-                        {{ app()->getLocale() === 'sk' ? 'Testy' : 'Tests' }}
-                    </a>
-                @endif
+                @endauth
 
                 @guest
                 {{-- Login / Prihlásiť sa --}}

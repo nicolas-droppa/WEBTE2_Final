@@ -1,6 +1,6 @@
 <!-- TODO: RETURN USER IG NOT ADMIN -->
 
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 <div class="max-w-5xl mx-auto px-6 mt-16 mb-20">
@@ -10,14 +10,14 @@
             <i class="fas fa-list-ul mr-2 text-[#54b5ff] dark:text-[#54b5ff]"></i>
             {{ __('tests.title') }}
         </h1>
-        <a href="{{ route('tests.create') }}"
+        <a href="{{ route('admin.tests.create') }}"
            class="bg-[#54b5ff] text-white px-4 py-2 rounded hover:bg-[#3ca5ec] transition shadow flex items-center gap-2">
             <i class="fas fa-plus"></i> {{ __('tests.create') }}
         </a>
     </div>
 
     <!-- Filter -->
-    <form method="GET" action="{{ route('tests.index') }}"
+    <form method="GET" action="{{ route('admin.tests.index') }}"
           class="mb-10 bg-white dark:bg-[#1c1c1e] p-8 rounded-xl shadow-md border border-slate-200 dark:border-[#141414]">
         <div>
             <label for="search"
@@ -55,12 +55,12 @@
                 </p>
             </div>
             <div class="flex gap-3">
-                <a href="{{ route('tests.edit', $test) }}"
+                <a href="{{ route('admin.tests.edit', $test) }}"
                    class="text-yellow-500 hover:text-yellow-600 transition text-lg"
                    title="{{ __('tests.edit') }}">
                     <i class="fas fa-edit"></i>
                 </a>
-                <form method="POST" action="{{ route('tests.destroy', $test) }}"
+                <form method="POST" action="{{ route('admin.tests.destroy', $test) }}"
                       onsubmit="return confirm('{{ __('tests.delete_confirm') }}');">
                     @csrf
                     @method('DELETE')

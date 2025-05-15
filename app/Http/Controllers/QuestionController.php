@@ -11,6 +11,8 @@ class QuestionController extends Controller
 {
     public function index(Request $request)
     {
+        $this->authorizeAdmin();
+        
         $query = Question::with(['answers', 'tags']);
 
         if ($search = $request->input('search')) {
@@ -29,24 +31,30 @@ class QuestionController extends Controller
         $questions = $query->get();
         $allTags = Tag::all();
 
-        return view('questions.index', compact('questions', 'allTags'));
+        return view('admin.questions.index', compact('questions', 'allTags'));
     }
 
     public function edit(Question $question)
     {
+        $this->authorizeAdmin();
+
         $question->load('answers');
 
-        return view('questions.edit', compact('question'));
+        return view('admin.questions.edit', compact('question'));
     }
 
 
     public function create()
     {
-        return view('questions.create');
+        $this->authorizeAdmin();
+
+        return view('admin.questions.create');
     }
 
     public function store(Request $request)
     {
+        $this->authorizeAdmin();
+
         $validated = $request->validate([
             'assignment_sk' => 'required|string',
             'assignment_en' => 'required|string',
@@ -86,12 +94,13 @@ class QuestionController extends Controller
             ]);
         }
 
-        return redirect()->route('questions.index');
+        return redirect()->route('admin.questions.index');
     }
 
 
     public function update(Request $request, Question $question)
     {
+        $this->authorizeAdmin();
         //dd($request->all());
         // Validate the incoming data
         $validated = $request->validate([
@@ -163,15 +172,24 @@ class QuestionController extends Controller
         }
 
 
-        return redirect()->route('questions.index')->with('success', 'Question updated successfully.');
+        return redirect()->route('admin.questions.index')->with('success', 'Question updated successfully.');
     }
 
 
     public function destroy(Question $question)
     {
+        $this->authorizeAdmin();
+
         $question->answers()->delete(); // deletes related answers
         $question->delete();
 
-        return redirect()->route('questions.index');
+        return redirect()->route('admin.questions.index');
+    }
+
+    protected function authorizeAdmin()
+    {
+        if (! auth()->user()?->isAdmin) {
+            abort(403);
+        }
     }
 }

@@ -10,6 +10,8 @@ class TestController extends Controller
 {
     public function index(Request $request)
     {
+        $this->authorizeAdmin();
+
         $q = Test::query();
         if ($search = $request->query('search')) {
             $q->where('title', 'like', "%{$search}%");
@@ -17,17 +19,21 @@ class TestController extends Controller
         $tests = $q->orderBy('created_at', 'desc')
                    ->paginate(10);
 
-        return view('tests.index', compact('tests'));
+        return view('admin.tests.index', compact('tests'));
     }
 
     public function create()
     {
+        $this->authorizeAdmin();
+
         $questions = Question::all();
-        return view('tests.create', compact('questions'));
+        return view('admin.tests.create', compact('questions'));
     }
 
     public function store(Request $request)
     {
+        $this->authorizeAdmin();
+
         $data = $request->validate([
             'title'       => 'required|string|max:255',
             'questions'   => 'required|array|min:1',
@@ -37,20 +43,24 @@ class TestController extends Controller
         $test = Test::create(['title' => $data['title']]);
         $test->questions()->sync($data['questions']);
 
-        return redirect()->route('tests.index')
+        return redirect()->route('admin.tests.index')
                          ->with('success', 'Test bol úspešne vytvorený.');
     }
 
     public function edit(Test $test)
     {
+        $this->authorizeAdmin();
+
         $questions = Question::all();
         $selectedQuestions = $test->questions->pluck('id')->toArray();
 
-        return view('tests.edit', compact('test', 'questions', 'selectedQuestions'));
+        return view('admin.tests.edit', compact('test', 'questions', 'selectedQuestions'));
     }
 
     public function update(Request $request, Test $test)
     {
+        $this->authorizeAdmin();
+        
         $data = $request->validate([
             'title'       => 'required|string|max:255',
             'questions'   => 'required|array|min:1',
@@ -64,18 +74,27 @@ class TestController extends Controller
         $test->questions()->sync($data['questions']);
 
         return redirect()
-            ->route('tests.index')
+            ->route('admin.tests.index')
             ->with('success', 'Test bol úspešne aktualizovaný.');
     }
 
     public function destroy(Test $test)
     {
+        $this->authorizeAdmin();
+        
         $test->questions()->detach();
 
         $test->delete();
 
         return redirect()
-            ->route('tests.index')
+            ->route('admin.tests.index')
             ->with('success', 'Test bol zmazaný.');
+    }
+
+    protected function authorizeAdmin()
+    {
+        if (! auth()->user()?->isAdmin) {
+            abort(403);
+        }
     }
 }

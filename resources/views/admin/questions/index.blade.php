@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 <div class="max-w-5xl mx-auto px-6 mt-16 mb-20">
@@ -8,14 +8,14 @@
             <i class="fas fa-list-ul mr-2 text-[#54b5ff] dark:text-[#54b5ff]"></i>
             {{ __('questions.title') }}
         </h1>
-        <a href="{{ route('questions.create') }}"
+        <a href="{{ route('admin.questions.create') }}"
             class="bg-[#54b5ff] text-white px-4 py-2 rounded hover:bg-[#3ca5ec] transition shadow flex items-center gap-2">
             <i class="fas fa-plus"></i> {{ __('questions.create') }}
         </a>
     </div>
 
     <!-- Filters -->
-    <form method="GET" action="{{ route('questions.index') }}"
+    <form method="GET" action="{{ route('admin.questions.index') }}"
         class="mb-10 bg-white dark:bg-[#1c1c1e] p-8 rounded-xl shadow-md border border-slate-200 dark:border-[#141414] space-y-6">
 
         <!-- Search bar -->
@@ -90,16 +90,16 @@
 
             {{-- Edit / Delete buttons --}}
             <div class="flex gap-2">
-                <a href="{{ route('questions.edit', $question) }}"
+                <a href="{{ route('admin.questions.edit', $question) }}"
                     class="text-yellow-500 hover:text-yellow-600 transition text-lg" title="{{ __('questions.edit') }}">
                     <i class="fas fa-edit"></i>
                 </a>
-                <form method="POST" action="{{ route('questions.destroy', $question) }}"
-                    onsubmit="return confirm('{{ __('questions.delete_confirm') }}');">
+                <form method="POST" action="{{ route('admin.questions.destroy', $question) }}"
+                    onsubmit="return confirm('{{ __('admin.questions.delete_confirm') }}');">
                     @csrf
                     @method('DELETE')
                     <button type="submit"
-                        class="text-red-500 hover:text-red-600 transition text-lg" title="{{ __('questions.delete') }}">
+                        class="text-red-500 hover:text-red-600 transition text-lg" title="{{ __('admin.questions.delete') }}">
                         <i class="fas fa-trash"></i>
                     </button>
                 </form>

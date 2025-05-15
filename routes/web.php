@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ManualController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\AdminController;
 use App\Http\Middleware\SetLocale;
 use App\Http\Middleware\IsAdmin;
 
@@ -54,9 +55,9 @@ Route::middleware([SetLocale::class])->group(function () {
     })->name('theme.toggle');
 
     // DASHBOARD
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
+    // Route::get('/dashboard', function () {
+    //     return view('dashboard');
+    // })->middleware(['auth', 'verified'])->name('dashboard');
 
     // Auth routes (login, register, etc.)
     Route::middleware('auth')->group(function () {
@@ -64,7 +65,7 @@ Route::middleware([SetLocale::class])->group(function () {
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-        Route::resource('questions', QuestionController::class);
+        //Route::resource('questions', QuestionController::class);
 
         Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
         Route::get('/history/tests/{id}', [HistoryController::class, 'showTest'])->name('history.tests.show');
@@ -72,8 +73,26 @@ Route::middleware([SetLocale::class])->group(function () {
         Route::get('/history/export-questions', [HistoryController::class, 'exportQuestions'])->name('export-questions');
         Route::get('/history/export-test', [HistoryController::class, 'exportTests'])->name('export-tests');
 
-        Route::resource('tests', TestController::class);
+        //Route::resource('tests', TestController::class);
+        //Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     });
+
+    Route::prefix('admin')
+     ->middleware('auth')
+     ->name('admin.')
+     ->group(function () {
+         Route::get('/dashboard', [AdminController::class, 'index'])
+              ->name('dashboard');
+
+         Route::resource('questions', QuestionController::class)
+              ->only(['index','create','store','edit','update','destroy']);
+
+         Route::resource('tests', TestController::class)
+              ->only(['index','create','store','edit','update','destroy']);
+
+         Route::get('/history', [HistoryController::class, 'index'])
+              ->name('history');
+     });
 });
 
 Route::get('/manual/download', [ManualController::class, 'downloadManual'])->name('manual.download');
