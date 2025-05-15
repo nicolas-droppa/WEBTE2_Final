@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 
 @section('content')
@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    @include('history.tables.tests')
+    @include('admin.history.tables.tests')
 
     <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 my-8">
         <h1 class="text-3xl font-bold text-slate-800 dark:text-gray-100">
@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    @include('history.tables.questions')
+    @include('admin.history.tables.questions')
 
     <div class="flex justify-center mt-4">
         <form method="POST" action="">

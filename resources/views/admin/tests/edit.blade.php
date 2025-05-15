@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 <div class="max-w-5xl mx-auto px-6 mt-16 mb-20">
@@ -20,14 +20,14 @@
             <i class="fas fa-edit mr-2 text-[#54b5ff]"></i>
             {{ __('tests.edit_title', ['title' => $test->title]) }}
         </h1>
-        <a href="{{ route('tests.index') }}"
+        <a href="{{ route('admin.tests.index') }}"
            class="bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-white px-4 py-2 rounded hover:bg-slate-300 dark:hover:bg-slate-600 transition shadow flex items-center gap-2">
             <i class="fas fa-arrow-left"></i> {{ __('tests.back_to_list') }}
         </a>
     </div>
 
     {{-- Edit Test Form --}}
-    <form action="{{ route('tests.update', $test) }}" method="POST" id="test-form"
+    <form action="{{ route('admin.tests.update', $test) }}" method="POST" id="test-form"
           class="bg-white dark:bg-[#1c1c1e] p-8 rounded-xl shadow-md border border-slate-200 dark:border-[#141414] space-y-6">
         @csrf
         @method('PATCH')
@@ -85,7 +85,7 @@
                     class="flex items-center justify-center bg-[#54b5ff] hover:bg-[#3ca5ec] text-white font-semibold px-6 py-2 rounded transition shadow gap-2">
                 <i class="fas fa-save"></i> {{ __('tests.save_button') }}
             </button>
-            <a href="{{ route('tests.index') }}" 
+            <a href="{{ route('admin.tests.index') }}" 
                class="text-slate-600 dark:text-slate-400 hover:underline">
                 {{ __('tests.cancel') }}
             </a>
