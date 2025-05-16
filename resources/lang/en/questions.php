@@ -47,4 +47,9 @@ return [
     'save_button' => 'Save Question',
     'back_to_list' => 'Back to List',
     'add_answer' => 'Add Answer',
+    'flash' => [
+        'created' => 'Question was successfully created.',
+        'updated' => 'Question was successfully updated.',
+        'deleted' => 'Question was successfully deleted.',
+    ],
 ];

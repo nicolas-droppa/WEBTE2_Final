@@ -21,4 +21,9 @@ return [
     'select_questions' => 'Otázky v teste',
     'save_button'      => 'Uložiť test',
     'edit_title'       => 'Upraviť test: :title',
+    'flash' => [
+        'created' => 'Test bol úspešne vytvorený.',
+        'updated' => 'Test bol úspešne aktualizovaný.',
+        'deleted' => 'Test bol zmazaný.',
+    ],
 ];

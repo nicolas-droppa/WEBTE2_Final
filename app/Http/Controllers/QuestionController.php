@@ -94,7 +94,9 @@ class QuestionController extends Controller
             ]);
         }
 
-        return redirect()->route('admin.questions.index');
+        return redirect()
+            ->route('admin.questions.index')
+            ->with('success', __('questions.flash.created'));
     }
 
 
@@ -172,7 +174,9 @@ class QuestionController extends Controller
         }
 
 
-        return redirect()->route('admin.questions.index')->with('success', 'Question updated successfully.');
+        return redirect()
+            ->route('admin.questions.index')
+            ->with('success', __('questions.flash.updated'));
     }
 
 
@@ -183,7 +187,9 @@ class QuestionController extends Controller
         $question->answers()->delete(); // deletes related answers
         $question->delete();
 
-        return redirect()->route('admin.questions.index');
+        return redirect()
+            ->route('admin.questions.index')
+            ->with('success', __('questions.flash.deleted'));
     }
 
     protected function authorizeAdmin()

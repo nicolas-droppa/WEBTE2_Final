@@ -49,4 +49,9 @@ return [
     'edit_title' => 'Upraviť otázku',
     'add_answer' => 'Pridať odpoveď',
     'save_button' => 'Uložiť otázku',
+    'flash' => [
+        'created' => 'Otázka bola úspešne vytvorená.',
+        'updated' => 'Otázka bola úspešne aktualizovaná.',
+        'deleted' => 'Otázka bola úspešne zmazaná.',
+    ],
 ];

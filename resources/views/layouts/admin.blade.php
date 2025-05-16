@@ -140,10 +140,53 @@
 
         <!-- Main content -->
         <main class="flex-1 px-6 py-10">
-            @yield('content')
-        </main>
-    </div>
+        {{-- Flash Messages --}}
+        @foreach (['success'=>'green', 'error'=>'red', 'warning'=>'yellow', 'info'=>'blue'] as $key => $color)
+        @if (session($key))
+            <div
+            x-data="{ show: true }"
+            x-show="show"
+            x-transition
+            class="
+                w-full mb-6 flex justify-between items-center
+                border-l-4 border-{{ $color }}-500
+                bg-{{ $color }}-500/20 dark:bg-{{ $color }}-900/30
+                text-{{ $color }}-800 dark:text-{{ $color }}-200
+                p-4 rounded shadow
+            "
+            >
+            <p class="flex-1">{{ session($key) }}</p>
+            <button
+                @click="show = false"
+                class="
+                ml-4 text-2xl leading-none
+                text-{{ $color }}-800 dark:text-{{ $color }}-200
+                hover:text-{{ $color }}-600
+                "
+                aria-label="Close"
+            >&times;</button>
+            </div>
+        @endif
+        @endforeach
+
+        @yield('content')
+    </main>
 
     @yield('scripts')
+
+    {{-- KaTeX core + auto-render at bottom --}}
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js" defer></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '\\(', right: '\\)', display: false}
+          ],
+          throwOnError: false
+        });
+      });
+    </script>
 </body>
 </html>

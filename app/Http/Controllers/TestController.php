@@ -43,8 +43,9 @@ class TestController extends Controller
         $test = Test::create(['title' => $data['title']]);
         $test->questions()->sync($data['questions']);
 
-        return redirect()->route('admin.tests.index')
-                         ->with('success', 'Test bol úspešne vytvorený.');
+        return redirect()
+            ->route('admin.tests.index')
+            ->with('success', __('tests.flash.created'));
     }
 
     public function edit(Test $test)
@@ -67,15 +68,12 @@ class TestController extends Controller
             'questions.*' => 'exists:questions,id',
         ]);
 
-        $test->update([
-            'title' => $data['title'],
-        ]);
-
+        $test->update(['title' => $data['title']]);
         $test->questions()->sync($data['questions']);
 
         return redirect()
             ->route('admin.tests.index')
-            ->with('success', 'Test bol úspešne aktualizovaný.');
+            ->with('success', __('tests.flash.updated'));
     }
 
     public function destroy(Test $test)
@@ -83,12 +81,11 @@ class TestController extends Controller
         $this->authorizeAdmin();
         
         $test->questions()->detach();
-
         $test->delete();
 
         return redirect()
             ->route('admin.tests.index')
-            ->with('success', 'Test bol zmazaný.');
+            ->with('success', __('tests.flash.deleted'));
     }
 
     protected function authorizeAdmin()

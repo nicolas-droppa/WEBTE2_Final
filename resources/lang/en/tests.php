@@ -21,4 +21,9 @@ return [
     'select_questions' => 'Questions in Test',
     'save_button'      => 'Save Test',
     'edit_title'       => 'Edit Test: :title',
+    'flash' => [
+        'created' => 'Test was successfully created.',
+        'updated' => 'Test was successfully updated.',
+        'deleted' => 'Test was successfully deleted.',
+    ],
 ];
