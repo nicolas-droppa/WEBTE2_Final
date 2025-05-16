@@ -29,7 +29,7 @@
                     <td class="px-4 py-2">{{ $test->city }}, {{ $test->state }}</td>
                     
                     <td class="px-4 py-2 w-2">
-                        <a href="{{ route('history.tests.show', ['id' => $test->id]) }}" class="cursor-pointer text-xs font-medium py-1 px-3 rounded-md bg-[#dcf0ff] hover:bg-[#bde5ff] dark:bg-[#1e2b3a] text-[#1e3a5f] dark:text-[#9ec9ff]">
+                        <a href="{{ route('admin.history.tests.show', ['id' => $test->id]) }}" class="cursor-pointer text-xs font-medium py-1 px-3 rounded-md bg-[#dcf0ff] hover:bg-[#bde5ff] dark:bg-[#1e2b3a] text-[#1e3a5f] dark:text-[#9ec9ff]">
                             {{ __('history.details-btn') }}
                         </a>
                     </td>

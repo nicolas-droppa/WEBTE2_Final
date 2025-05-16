@@ -13,11 +13,16 @@
 <body class="bg-gray-50 text-gray-900 dark:bg-[#18181a] dark:text-gray-100 transition-colors duration-300">
     <div class="flex min-h-screen">
         <!-- Sidebar -->
-        <aside class="w-64 sticky top-0 h-screen bg-white dark:bg-[#1c1c1e] border-r border-gray-200 dark:border-gray-700 shadow-sm z-20 flex flex-col justify-between">
+        <aside class="w-64 sticky top-0 h-screen bg-white dark:bg-[#1c1c1e] border-r border-gray-200 dark:border-[#292929] shadow-sm z-20 flex flex-col justify-between">
             <nav class="p-4 space-y-3">
-                <h2 class="text-lg font-semibold text-slate-800 dark:text-white mb-6">
-                    <i class="fas fa-crown mr-2 text-[#54b5ff]"></i> Admin Panel
-                </h2>
+                {{-- Logo --}}
+                <div class="text-xl font-semibold text-slate-800 dark:text-white">
+                    <a href="{{ route('welcome') }}"
+                    class="hover:text-[#54b5ff] dark:hover:text-[#54b5ff] transition duration-300 flex items-center gap-2">
+                        <i class="fa-solid fa-square-root-variable text-[#54b5ff] dark:text-[#54b5ff]"></i>
+                        <h2>Admin Panel</h2>
+                    </a>
+                </div>
 
                 <a href="{{ route('admin.dashboard') }}"
                 class="block @if(request()->routeIs('admin.dashboard')) text-[#54b5ff] font-semibold @endif hover:text-[#54b5ff] transition">
@@ -34,12 +39,12 @@
                     <i class="fas fa-flask mr-2"></i> {{ __('admin.tests') }}
                 </a>
 
-                <a href="{{ route('history.index') }}"
-                class="block @if(request()->routeIs('history.index')) text-[#54b5ff] font-semibold @endif hover:text-[#54b5ff] transition">
+                <a href="{{ route('admin.history.index') }}"
+                class="block @if(request()->routeIs('admin.history.index')) text-[#54b5ff] font-semibold @endif hover:text-[#54b5ff] transition">
                     <i class="fas fa-clock-rotate-left mr-2"></i> {{ __('admin.history') }}
                 </a>
                 
-                <hr class="my-2 border-slate-300 dark:border-slate-600">
+                <hr class="my-2 border-slate-300 dark:border-[#292929]">
 
                 <div class="mt-6">
                     <a href="{{ route('welcome') }}"
@@ -62,7 +67,7 @@
 
             </nav>
 
-            <div class="p-4 flex flex-col space-y-2 border-t border-gray-200 dark:border-gray-700">
+            <div class="p-4 flex flex-col space-y-2 border-t border-gray-200 dark:border-[#292929]">
                 {{-- Actions --}}
                 <div class="flex flex-col items-stretch space-y-2">
                     @auth

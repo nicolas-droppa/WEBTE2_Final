@@ -67,16 +67,20 @@ Route::middleware([SetLocale::class])->group(function () {
 
         //Route::resource('questions', QuestionController::class);
 
-        Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
-        Route::get('/history/tests/{id}', [HistoryController::class, 'showTest'])->name('history.tests.show');
-        Route::get('/history/questions/{id}', [HistoryController::class, 'showQuestion'])->name('history.questions.show');
-        Route::get('/history/export-questions', [HistoryController::class, 'exportQuestions'])->name('export-questions');
-        Route::get('/history/export-test', [HistoryController::class, 'exportTests'])->name('export-tests');
+        //Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
+        // Route::get('/history/tests/{id}', [HistoryController::class, 'showTest'])->name('history.tests.show');
+        // Route::get('/history/questions/{id}', [HistoryController::class, 'showQuestion'])->name('history.questions.show');
+        // Route::get('/history/export-questions', [HistoryController::class, 'exportQuestions'])->name('export-questions');
+        // Route::get('/history/export-test', [HistoryController::class, 'exportTests'])->name('export-tests');
 
         //Route::resource('tests', TestController::class);
         //Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     });
 
+    /*
+     * Toto cele je jebnuty bypass na middleware lebo mi nesiel a preto
+     * mame potom v controlleroch vzdy vratkov ofajč na kontrolu admina
+     */
     Route::prefix('admin')
      ->middleware('auth')
      ->name('admin.')
@@ -92,7 +96,22 @@ Route::middleware([SetLocale::class])->group(function () {
 
          Route::get('/history', [HistoryController::class, 'index'])
               ->name('history');
-     });
+
+              Route::get('/history', [HistoryController::class, 'index'])
+              ->name('history.index');
+
+         Route::get('/history/tests/{id}', [HistoryController::class, 'showTest'])
+              ->name('history.tests.show');
+
+         Route::get('/history/questions/{id}', [HistoryController::class, 'showQuestion'])
+              ->name('history.questions.show');
+
+         Route::get('/history/export-questions', [HistoryController::class, 'exportQuestions'])
+              ->name('history.export-questions');
+
+         Route::get('/history/export-test', [HistoryController::class, 'exportTests'])
+              ->name('history.export-tests');
+    });
 });
 
 Route::get('/manual/download', [ManualController::class, 'downloadManual'])->name('manual.download');

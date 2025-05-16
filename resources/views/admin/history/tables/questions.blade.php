@@ -48,7 +48,7 @@
                         {{ $avgTime ? round($avgTime, 2) . ' s' : '-' }}    
                     </td>
                     <td class="px-4 py-2 w-2">
-                        <a href="{{ route('history.questions.show', ['id' => $q->id]) }}" class="text-xs font-medium py-1 px-3 rounded-md bg-[#dcf0ff] hover:bg-[#bde5ff] dark:bg-[#1e2b3a] text-[#1e3a5f] dark:text-[#9ec9ff]">
+                        <a href="{{ route('admin.history.questions.show', ['id' => $q->id]) }}" class="text-xs font-medium py-1 px-3 rounded-md bg-[#dcf0ff] hover:bg-[#bde5ff] dark:bg-[#1e2b3a] text-[#1e3a5f] dark:text-[#9ec9ff]">
                             {{ __('history.details-btn') }}
                         </a>
                     </td>

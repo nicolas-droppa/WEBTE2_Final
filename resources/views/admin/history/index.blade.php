@@ -11,7 +11,7 @@
             {{ __('history.overview-heading') }}
         </h1>
         <div class="flex justify-end mt-4">
-            <a href="{{ route('export-tests') }}"
+            <a href="{{ route('admin.history.export-tests') }}"
             class="text-gray-500 pr-4 text-xs font-semibold">
                 <i class="fas fa-download mr-1"></i> {{ __('history.tests-export-btn') }}
             </a>
@@ -26,7 +26,7 @@
             {{ __('history.questions-heading') }}
         </h1>
         <div class="flex justify-end mt-4">
-            <a href="{{ route('export-questions') }}"
+            <a href="{{ route('admin.history.export-questions') }}"
             class="text-gray-500 pr-4 text-xs font-semibold">
                 <i class="fas fa-download mr-1"></i> {{ __('history.questions-export-btn') }}
             </a>
