@@ -24,20 +24,6 @@
                     {{ app()->getLocale() === 'sk' ? 'Návod' : 'Guide' }}
                 </a>
 
-                @auth
-                @if(auth()->user()->isAdmin)
-                    <a href="{{ route('admin.dashboard') }}"
-                    class="pb-1 border-b-2 transition duration-300
-                        @if(request()->routeIs('admin.dashboard'))
-                            border-[#54b5ff] text-slate-800 dark:text-white
-                        @else
-                            border-transparent text-slate-700 dark:text-gray-300 hover:border-[#54b5ff] hover:text-[#54b5ff] dark:hover:border-[#78cfff] dark:hover:text-[#78cfff]
-                        @endif">
-                        {{ app()->getLocale() === 'sk' ? 'Admin panel' : 'Admin panel' }}
-                    </a>
-                @endif
-                @endauth
-
                 @guest
                 {{-- Login / Prihlásiť sa --}}
                 <a href="{{ route('login', ['lang' => app()->getLocale()]) }}"
@@ -88,6 +74,16 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        @auth
+                            @if(auth()->user()->isAdmin)
+                                <x-dropdown-link 
+                                    :href="route('admin.dashboard')" 
+                                    class="text-sm font-medium text-slate-800 dark:text-gray-200 hover:bg-[#54b5ff] hover:text-[#78cfff] dark:hover:bg-[#333] dark:hover:text-[#78cfff] transition-all duration-200"
+                                >
+                                    {{ __('Admin Panel') }}
+                                </x-dropdown-link>
+                            @endif
+                        @endauth
                         <x-dropdown-link :href="route('profile.edit')" class="text-sm font-medium text-slate-800 dark:text-gray-200 hover:bg-[#54b5ff] hover:text-[#78cfff] dark:hover:bg-[#333] dark:hover:text-[#78cfff] transition-all duration-200">
                             {{ app()->getLocale() === 'sk' ? 'Profil' : 'Profile' }}
                         </x-dropdown-link>
