@@ -39,8 +39,12 @@ Route::middleware('auth:sanctum')->group(function () {
         ->parameters(['user-tests' => 'history_test']);
 
     Route::apiResource('user-tests.questions', HistoryTestQuestionController::class)
-        ->shallow()
         ->parameters(['user-tests' => 'history_test', 'questions' => 'question']);
+
+    Route::post(
+        'user-tests/{history_test}/evaluate',
+        [HistoryTestController::class, 'evaluate']
+    )->name('history-tests.evaluate');
 
     Route::get('/questions', [QuestionController::class, 'index']);
 

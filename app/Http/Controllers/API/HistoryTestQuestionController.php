@@ -13,6 +13,7 @@ class HistoryTestQuestionController extends Controller
     {
         $records = $history_test->questions()
             ->withPivot(['answer_id','written_answer','time'])
+            ->with('answers')
             ->get()
             ->map(fn($q) => [
                 'question' => $q,
@@ -56,6 +57,7 @@ class HistoryTestQuestionController extends Controller
         $record = $history_test->questions()
             ->where('question_id',$question_id)
             ->withPivot(['answer_id','written_answer','time'])
+            ->with('answers')   
             ->firstOrFail();
 
         return response()->json([

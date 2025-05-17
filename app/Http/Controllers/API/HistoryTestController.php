@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\HistoryTest;
 use App\Models\Test;
+use App\Models\Answer;
 use Illuminate\Http\Request;
 
 class HistoryTestController extends Controller
@@ -62,8 +63,16 @@ class HistoryTestController extends Controller
     // Show one attempt with its question‐records
     public function show(HistoryTest $history_test)
     {
-        $history_test->load(['questions','questions.question','questions.answer']);
-        return response()->json($history_test);
+        // Get the history-test’s own attributes
+        $data = $history_test->toArray();
+
+        // Overwrite or add a `question_ids` key with just the IDs
+        $data['question_ids'] = $history_test
+            ->questions()             // the belongsToMany relation
+            ->pluck('questions.id')   // grab only the question IDs
+            ->toArray();
+
+        return response()->json($data);
     }
 
     // Update score or location on an attempt
@@ -85,6 +94,42 @@ class HistoryTestController extends Controller
         $history_test->questions()->detach();      // remove pivot rows
         $history_test->delete();
         return response()->json(['message'=>'Attempt deleted.']);
+    }
+
+    public function evaluate(HistoryTest $history_test)
+    {
+        // 1. Load all pivot records
+        $records = $history_test
+            ->questions()
+            ->withPivot('answer_id')
+            ->get();
+
+        $total    = $records->count();
+        $correct  = 0;
+
+        foreach ($records as $question) {
+            $userAnswerId = $question->pivot->answer_id;
+
+            // 2. Find the “correct” answer for this question
+            $correctAnswerId = Answer::where('question_id', $question->id)
+                                     ->where('isCorrect', 1)
+                                     ->value('id');
+
+            // 3. Compare (if user never answered, $userAnswerId will be null)
+            if ($userAnswerId !== null && $userAnswerId == $correctAnswerId) {
+                $correct++;
+            }
+        }
+
+        // 4. Update the history_test score
+        $history_test->update(['score' => $correct]);
+
+        // 5. Return summary
+        return response()->json([
+            'total_questions' => $total,
+            'correct_answers' => $correct,
+            'score'           => $correct,
+        ], 200);
     }
 }
 
