@@ -5,7 +5,7 @@
             {{-- Logo --}}
             <div class="text-xl font-semibold text-slate-800 dark:text-white">
                 <a href="{{ route('welcome') }}"
-                   class="hover:text-[#54b5ff] dark:hover:text-[#54b5ff] transition duration-300 flex items-center gap-2">
+                    class="hover:text-[#54b5ff] dark:hover:text-[#54b5ff] transition duration-300 flex items-center gap-2">
                     <i class="fa-solid fa-square-root-variable text-[#54b5ff] dark:text-[#54b5ff]"></i>
                     M3th
                 </a>
@@ -15,7 +15,7 @@
             <div class="flex items-center space-x-6 text-base font-semibold">
                 {{-- Guide / Návod --}}
                 <a href="{{ route('welcome') }}"
-                class="pb-1 border-b-2 transition duration-300
+                    class="pb-1 border-b-2 transition duration-300
                     @if(request()->routeIs('welcome'))
                         border-[#54b5ff] text-slate-800 dark:text-white
                     @else
@@ -27,7 +27,7 @@
                 @guest
                 {{-- Login / Prihlásiť sa --}}
                 <a href="{{ route('login', ['lang' => app()->getLocale()]) }}"
-                class="pb-1 border-b-2 transition duration-300
+                    class="pb-1 border-b-2 transition duration-300
                     @if(request()->routeIs('login'))
                         border-[#54b5ff] text-slate-800 dark:text-white
                     @else
@@ -38,7 +38,7 @@
 
                 {{-- Register / Registrovať sa --}}
                 <a href="{{ route('register') }}"
-                class="pb-1 border-b-2 transition duration-300
+                    class="pb-1 border-b-2 transition duration-300
                     @if(request()->routeIs('register'))
                         border-[#54b5ff] text-slate-800 dark:text-white
                     @else
@@ -75,14 +75,13 @@
 
                     <x-slot name="content">
                         @auth
-                            @if(auth()->user()->isAdmin)
-                                <x-dropdown-link 
-                                    :href="route('admin.dashboard')" 
-                                    class="text-sm font-medium text-slate-800 dark:text-gray-200 hover:bg-[#54b5ff] hover:text-[#78cfff] dark:hover:bg-[#333] dark:hover:text-[#78cfff] transition-all duration-200"
-                                >
-                                    {{ __('Admin Panel') }}
-                                </x-dropdown-link>
-                            @endif
+                        @if(auth()->user()->isAdmin)
+                        <x-dropdown-link
+                            :href="route('admin.dashboard')"
+                            class="text-sm font-medium text-slate-800 dark:text-gray-200 hover:bg-[#54b5ff] hover:text-[#78cfff] dark:hover:bg-[#333] dark:hover:text-[#78cfff] transition-all duration-200">
+                            {{ __('Admin Panel') }}
+                        </x-dropdown-link>
+                        @endif
                         @endauth
                         <x-dropdown-link :href="route('profile.edit')" class="text-sm font-medium text-slate-800 dark:text-gray-200 hover:bg-[#54b5ff] hover:text-[#78cfff] dark:hover:bg-[#333] dark:hover:text-[#78cfff] transition-all duration-200">
                             {{ app()->getLocale() === 'sk' ? 'Profil' : 'Profile' }}
@@ -103,8 +102,7 @@
                 <form method="POST" action="{{ route('theme.toggle') }}">
                     @csrf
                     <button type="submit"
-                        class="flex items-center h-9 rounded-md overflow-hidden transition duration-300 group"
-                    >
+                        class="flex items-center h-9 rounded-md overflow-hidden transition duration-300 group">
                         <!-- Ikonová časť -->
                         <div class="w-9 h-9 flex items-center justify-center bg-[#f7f7f7] dark:bg-[#1c1c1c] text-slate-800 dark:text-slate-100 transition-colors duration-300
                             group-hover:bg-[#ebebeb] dark:group-hover:bg-[#212121]">
@@ -127,24 +125,24 @@
 
                 {{-- Language Toggle --}}
                 @php
-                    $currentLang = app()->getLocale();
-                    $newLang = $currentLang === 'sk' ? 'en' : 'sk';
+                $currentLang = app()->getLocale();
+                $newLang = $currentLang === 'sk' ? 'en' : 'sk';
 
-                    // Získaj aktuálnu URL
-                    $newUrl = url()->current();
+                // Získaj aktuálnu URL
+                $newUrl = url()->current();
 
-                    // Skontroluj, či URL obsahuje parameter lang
-                    if (strpos($newUrl, 'lang=') !== false) {
-                        // Ak už parameter lang existuje, prepíšeme ho
-                        $newUrl = preg_replace('/([?&])lang=[^&]+/', '$1lang=' . $newLang, $newUrl);
-                    } else {
-                        // Ak nie je, pridáme nový parameter lang
-                        $newUrl = $newUrl . (parse_url($newUrl, PHP_URL_QUERY) ? '&' : '?') . 'lang=' . $newLang;
-                    }
+                // Skontroluj, či URL obsahuje parameter lang
+                if (strpos($newUrl, 'lang=') !== false) {
+                // Ak už parameter lang existuje, prepíšeme ho
+                $newUrl = preg_replace('/([?&])lang=[^&]+/', '$1lang=' . $newLang, $newUrl);
+                } else {
+                // Ak nie je, pridáme nový parameter lang
+                $newUrl = $newUrl . (parse_url($newUrl, PHP_URL_QUERY) ? '&' : '?') . 'lang=' . $newLang;
+                }
                 @endphp
 
                 <a href="{{ $newUrl }}"
-                class="flex items-center h-9 rounded-md overflow-hidden transition duration-300 group">
+                    class="flex items-center h-9 rounded-md overflow-hidden transition duration-300 group">
                     <!-- Ikonová časť -->
                     <div class="w-9 h-9 flex items-center justify-center bg-[#f7f7f7] dark:bg-[#1c1c1c] text-slate-800 dark:text-slate-100 transition-colors duration-300
                         group-hover:bg-[#ebebeb] dark:group-hover:bg-[#212121]">

@@ -11,6 +11,15 @@ use App\Http\Controllers\AdminController;
 use App\Http\Middleware\SetLocale;
 
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\TestTakingController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/test/{test}/start', [TestTakingController::class, 'start'])->name('test.start');
+    Route::get('/test/question', [TestTakingController::class, 'showQuestion'])->name('test.question');
+    Route::post('/test/question', [TestTakingController::class, 'submitAnswer'])->name('test.answer');
+    Route::get('/test/result', [TestTakingController::class, 'result'])->name('test.result');
+    Route::get('/tests/{test}/start', [TestTakingController::class, 'start'])->name('tests.start');
+});
 
 Route::get('lang/{locale}', function ($locale) {
     if (in_array($locale, ['en', 'sk'])) {
@@ -81,36 +90,36 @@ Route::middleware([SetLocale::class])->group(function () {
      * mame potom v controlleroch vzdy vratkov ofajč na kontrolu admina
      */
     Route::prefix('admin')
-     ->middleware('auth')
-     ->name('admin.')
-     ->group(function () {
-         Route::get('/dashboard', [AdminController::class, 'index'])
-              ->name('dashboard');
+        ->middleware('auth')
+        ->name('admin.')
+        ->group(function () {
+            Route::get('/dashboard', [AdminController::class, 'index'])
+                ->name('dashboard');
 
-         Route::resource('questions', QuestionController::class)
-              ->only(['index','create','store','edit','update','destroy']);
+            Route::resource('questions', QuestionController::class)
+                ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
 
-         Route::resource('tests', TestController::class)
-              ->only(['index','create','store','edit','update','destroy']);
+            Route::resource('tests', TestController::class)
+                ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
 
-         Route::get('/history', [HistoryController::class, 'index'])
-              ->name('history');
+            Route::get('/history', [HistoryController::class, 'index'])
+                ->name('history');
 
-              Route::get('/history', [HistoryController::class, 'index'])
-              ->name('history.index');
+            Route::get('/history', [HistoryController::class, 'index'])
+                ->name('history.index');
 
-         Route::get('/history/tests/{id}', [HistoryController::class, 'showTest'])
-              ->name('history.tests.show');
+            Route::get('/history/tests/{id}', [HistoryController::class, 'showTest'])
+                ->name('history.tests.show');
 
-         Route::get('/history/questions/{id}', [HistoryController::class, 'showQuestion'])
-              ->name('history.questions.show');
+            Route::get('/history/questions/{id}', [HistoryController::class, 'showQuestion'])
+                ->name('history.questions.show');
 
-         Route::get('/history/export-questions', [HistoryController::class, 'exportQuestions'])
-              ->name('history.export-questions');
+            Route::get('/history/export-questions', [HistoryController::class, 'exportQuestions'])
+                ->name('history.export-questions');
 
-         Route::get('/history/export-test', [HistoryController::class, 'exportTests'])
-              ->name('history.export-tests');
-    });
+            Route::get('/history/export-test', [HistoryController::class, 'exportTests'])
+                ->name('history.export-tests');
+        });
 });
 
 Route::get('/manual/download', [ManualController::class, 'downloadManual'])->name('manual.download');
