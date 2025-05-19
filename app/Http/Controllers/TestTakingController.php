@@ -17,20 +17,29 @@ class TestTakingController extends Controller
         $historyTest = HistoryTest::create([
             'user_id' => Auth::id(),
             'test_id' => $test->id,
-            'city'    => 'unknown', // Customize based on your input
-            'state'   => 'unknown',       // Customize based on your input
+            'city'    => 'unknown',
+            'state'   => 'unknown',
         ]);
 
-        // Randomize the questions
+        // Randomize and store questions
         $questions = $test->questions()->inRandomOrder()->pluck('id')->toArray();
 
-        // Store session data to track progress
+        // Create empty rows for each question in pivot table
+        foreach ($questions as $questionId) {
+            DB::table('history_test_question')->insert([
+                'history_test_id' => $historyTest->id,
+                'question_id'     => $questionId,
+                'answer_id' => null,
+            ]);
+        }
+
+        // Store session data
         session([
-            'current_test' => $test->id,
-            'history_test_id' => $historyTest->id,
-            'question_ids' => $questions,
-            'current_index' => 0,
-            'start_time' => now(),
+            'current_test'     => $test->id,
+            'history_test_id'  => $historyTest->id,
+            'question_ids'     => $questions,
+            'current_index'    => 0,
+            'start_time'       => now(),
         ]);
 
         return redirect()->route('test.question');
@@ -46,12 +55,11 @@ class TestTakingController extends Controller
             return redirect()->route('test.result');
         }
 
-        // Eager load the 'answers' relationship
         $question = Question::with('answers')->findOrFail($questionIds[$index]);
 
         return view('test.question', [
-            'question' => $question,
-            'start' => now()->timestamp,
+            'question'        => $question,
+            'start'           => now()->timestamp,
             'history_test_id' => $historyTestId,
         ]);
     }
@@ -61,17 +69,13 @@ class TestTakingController extends Controller
         $request->validate([
             'question_id'     => 'required|exists:questions,id',
             'start_timestamp' => 'required|integer',
-            'history_test_id' => 'required|exists:history_tests,id',
         ]);
-
         $question = Question::findOrFail($request->question_id);
-        $historyTestId = $request->history_test_id;
+        $historyTestId = session('history_test_id');
         $timeTaken = now()->timestamp - $request->start_timestamp;
 
         $data = [
-            'history_test_id' => $historyTestId,
-            'question_id'     => $question->id,
-            'time'            => $timeTaken,
+            'time' => $timeTaken,
         ];
 
         if ($question->isMultiChoice) {
@@ -86,21 +90,18 @@ class TestTakingController extends Controller
             $data['written_answer'] = $request->written_answer;
         }
 
-        DB::table('history_test_question')->updateOrInsert(
-            [
-                'history_test_id' => $historyTestId,
-                'question_id'     => $question->id,
-            ],
-            $data
-        );
 
-        $index = session('current_index', 0);
-        $questionIds = session('question_ids');
-        $index++;
-        dd($index);
+        // Update existing pivot record
+        DB::table('history_test_question')
+            ->where('history_test_id', $historyTestId)
+            ->where('question_id', $question->id)
+            ->update(array_merge($data));
 
+        // Move to next question
+        $index = session('current_index', 0) + 1;
         session(['current_index' => $index]);
 
+        $questionIds = session('question_ids');
         if ($index < count($questionIds)) {
             return redirect()->route('test.question');
         }
@@ -108,12 +109,11 @@ class TestTakingController extends Controller
         return redirect()->route('test.result');
     }
 
-
-
     public function result()
     {
         $historyTestId = session('history_test_id');
-        $history = HistoryTest::with(['test', 'questions.answers', 'questions.correctAnswer'])->findOrFail($historyTestId);
+        $history = HistoryTest::with(['test', 'questions.answers'])->findOrFail($historyTestId);
+
 
         $totalTime = 0;
         $correct = 0;
@@ -123,29 +123,61 @@ class TestTakingController extends Controller
             $pivot = $question->pivot;
             $totalTime += $pivot->time ?? 0;
 
-            if ($question->type === 'written') {
-                // Manual scoring or keyword match here
+            if (!$question->isMultiChoice) {
+                $correctAnswer = $question->answers->firstWhere('isCorrect', true)?->text;
+                $userAnswer = $pivot->written_answer;
+
+                if ($this->isWrittenAnswerCorrect($userAnswer ?? "", $correctAnswer ?? "")) {
+                    $correct++;
+                }
+
                 continue;
             }
 
-            if ($pivot->answer_id == $question->correctAnswer?->id) {
+            $correctAnswerId = $question->answers()->where('isCorrect', true)->value('id');
+
+            if ($pivot->answer_id == $correctAnswerId) {
                 $correct++;
             }
         }
 
         $averageTime = $total > 0 ? round($totalTime / $total, 2) : 0;
 
-        // Save score to history_tests
         $history->update(['score' => $correct]);
 
-        // Clear session
-        session()->forget(['current_test', 'history_test_id', 'question_ids', 'current_index', 'start_time']);
+        session()->forget([
+            'current_test',
+            'history_test_id',
+            'question_ids',
+            'current_index',
+            'start_time',
+        ]);
 
         return view('test.result', [
-            'history' => $history,
-            'score' => $correct,
-            'averageTime' => $averageTime,
-            'totalTime' => $totalTime,
+            'history'      => $history,
+            'score'        => $correct,
+            'averageTime'  => $averageTime,
+            'totalTime'    => $totalTime,
         ]);
+    }
+
+    private function isWrittenAnswerCorrect(string $userAnswer, string $correctAnswer): bool
+    {
+        $normalize = function ($input) {
+            return collect(explode(',', strtolower($input)))
+                ->map(function ($item) {
+                    // Remove units and spaces
+                    return trim(preg_replace('/[^0-9.]/', '', $item));
+                })
+                ->filter() // remove empty items
+                ->sort()
+                ->values()
+                ->toArray();
+        };
+
+        $normalizedUser = $normalize($userAnswer);
+        $normalizedCorrect = $normalize($correctAnswer);
+
+        return $normalizedUser === $normalizedCorrect;
     }
 }

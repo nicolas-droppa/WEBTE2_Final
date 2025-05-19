@@ -11,12 +11,12 @@
         @if($question->isMultiChoice)
         {{-- Multi-choice: checkboxes --}}
         <input type="radio" name="answer_id" value="{{ $answer->id }}" id="answer_{{ $answer->id }}">
+        <label for="answer_{{ $answer->id }}">{{ $answer->answer_sk }}</label>
         @else(!$question->type)
         <div class="mb-4">
             <textarea name="written_answer" class="w-full border rounded p-2" rows="4" placeholder="Write your answer..."></textarea>
         </div>
         @endif
-        <label for="answer_{{ $answer->id }}">{{ $answer->answer_sk }}</label>
     </div>
     @endforeach
 
