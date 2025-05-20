@@ -24,6 +24,17 @@
                     {{ app()->getLocale() === 'sk' ? 'Návod' : 'Guide' }}
                 </a>
 
+                {{-- Api Docs / Api Dokumentácia --}}
+                <a href="{{ url(config('l5-swagger.routes.api', 'api/documentation')) }}"
+                class="pb-1 border-b-2 transition duration-300
+                    @if(request()->is(trim(config('l5-swagger.routes.api', 'api/documentation'), '/').'*'))
+                        border-[#54b5ff] text-slate-800 dark:text-white
+                    @else
+                        border-transparent text-slate-700 dark:text-gray-300 hover:border-[#54b5ff] hover:text-[#54b5ff] dark:hover:border-[#78cfff] dark:hover:text-[#78cfff]
+                    @endif">
+                    {{ app()->getLocale() === 'sk' ? 'Dokumentácia' : 'Documentation' }}
+                </a>
+
                 @guest
                 {{-- Login / Prihlásiť sa --}}
                 <a href="{{ route('login', ['lang' => app()->getLocale()]) }}"
