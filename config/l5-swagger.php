@@ -170,6 +170,12 @@ return [
         */
         'securityDefinitions' => [
             'securitySchemes' => [
+                'bearerAuth' => [             // <—– the name “bearerAuth” is arbitrary but conventional
+                    'type'         => 'http',
+                    'scheme'       => 'bearer',
+                    'bearerFormat' => 'Bearer',
+                    'description'  => 'Enter token in format (Bearer <token>)',
+                ],
                 /*
                  * Examples of Security schemes
                  */
@@ -217,6 +223,7 @@ return [
                 */
             ],
             'security' => [
+                [ 'bearerAuth' => [] ],
                 /*
                  * Examples of Securities
                  */

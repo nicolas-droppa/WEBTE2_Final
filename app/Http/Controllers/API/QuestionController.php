@@ -13,6 +13,7 @@ class QuestionController extends Controller
      *     path="/api/questions",
      *     summary="List questions, filterable by search string or tags",
      *     tags={"Questions"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="search",
      *         in="query",
@@ -67,6 +68,7 @@ class QuestionController extends Controller
      *     path="/api/questions/{id}",
      *     summary="Show one question with answers and tags",
      *     tags={"Questions"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -97,6 +99,7 @@ class QuestionController extends Controller
      *     path="/api/questions",
      *     summary="Create a new question with answers and tags",
      *     tags={"Questions"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -174,6 +177,7 @@ class QuestionController extends Controller
      *     path="/api/questions/{id}",
      *     summary="Update a question, its answers, and tags",
      *     tags={"Questions"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -271,6 +275,7 @@ class QuestionController extends Controller
      *     path="/api/questions/{id}",
      *     summary="Delete a question and its answers",
      *     tags={"Questions"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

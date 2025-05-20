@@ -13,7 +13,7 @@ class HistoryTestQuestionController extends Controller
      *     path="/api/user-tests/{user_test}/questions",
      *     summary="List all question-records for one test attempt",
      *     tags={"User Tests"},
-     *     security={{"sanctum": {}}},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="user_test",
      *         in="path",
@@ -54,7 +54,7 @@ class HistoryTestQuestionController extends Controller
      *     path="/api/user-tests/{user_test}/questions",
      *     summary="Record an answer/time for one question in a test attempt",
      *     tags={"User Tests"},
-     *     security={{"sanctum": {}}},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="user_test",
      *         in="path",
@@ -114,7 +114,7 @@ class HistoryTestQuestionController extends Controller
      *     path="/api/user-tests/{user_test}/questions/{question_id}",
      *     summary="Show one question-record in a test attempt",
      *     tags={"User Tests"},
-     *     security={{"sanctum": {}}},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="user_test",
      *         in="path",
@@ -162,7 +162,7 @@ class HistoryTestQuestionController extends Controller
      *     path="/api/user-tests/{user_test}/questions/{question_id}",
      *     summary="Update answer/time for one question-record",
      *     tags={"User Tests"},
-     *     security={{"sanctum": {}}},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="user_test",
      *         in="path",
@@ -222,7 +222,7 @@ class HistoryTestQuestionController extends Controller
      *     path="/api/user-tests/{user_test}/questions/{question_id}",
      *     summary="Remove a question-record from a test attempt",
      *     tags={"User Tests"},
-     *     security={{"sanctum": {}}},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="user_test",
      *         in="path",

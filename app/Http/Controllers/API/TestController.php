@@ -13,6 +13,7 @@ class TestController extends Controller
      *     path="/api/tests",
      *     summary="Get a list of tests (optionally filter by title)",
      *     tags={"Tests"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="search",
      *         in="query",
@@ -46,6 +47,7 @@ class TestController extends Controller
      *     path="/api/tests",
      *     summary="Create a new test with question IDs",
      *     tags={"Tests"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -93,6 +95,7 @@ class TestController extends Controller
      *     path="/api/tests/{test}",
      *     summary="Get a single test with its questions",
      *     tags={"Tests"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="test",
      *         in="path",
@@ -121,6 +124,7 @@ class TestController extends Controller
      *     path="/api/tests/{test}",
      *     summary="Update a test's title and question IDs",
      *     tags={"Tests"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="test",
      *         in="path",
@@ -179,6 +183,7 @@ class TestController extends Controller
      *     path="/api/tests/{test}",
      *     summary="Delete a test and detach its questions",
      *     tags={"Tests"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="test",
      *         in="path",

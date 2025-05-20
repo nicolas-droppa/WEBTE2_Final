@@ -14,6 +14,7 @@ class TestQuestionController extends Controller
      *     path="/api/tests/{test}/questions",
      *     summary="List all questions for a test, with optional search and tags filter",
      *     tags={"Tests"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="test",
      *         in="path",
@@ -71,6 +72,7 @@ class TestQuestionController extends Controller
      *     path="/api/tests/{test}/questions/{question}",
      *     summary="Get one question (with answers and tags) for this test",
      *     tags={"Tests"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="test",
      *         in="path",
@@ -109,6 +111,7 @@ class TestQuestionController extends Controller
      *     path="/api/tests/{test}/questions",
      *     summary="Create and attach a new question to the test",
      *     tags={"Tests"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="test",
      *         in="path",
@@ -191,6 +194,7 @@ class TestQuestionController extends Controller
      *     path="/api/tests/{test}/questions/{question}",
      *     summary="Update a question attached to this test",
      *     tags={"Tests"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="test",
      *         in="path",
@@ -286,6 +290,7 @@ class TestQuestionController extends Controller
      *     path="/api/tests/{test}/questions/{question}",
      *     summary="Detach and delete a question from a test",
      *     tags={"Tests"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="test",
      *         in="path",

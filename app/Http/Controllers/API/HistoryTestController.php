@@ -15,7 +15,7 @@ class HistoryTestController extends Controller
      *     path="/api/user-tests",
      *     summary="List all attempts for the authenticated user",
      *     tags={"User Tests"},
-     *     security={{"sanctum": {}}},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="List of test attempts",
@@ -45,7 +45,7 @@ class HistoryTestController extends Controller
      *     path="/api/user-tests",
      *     summary="Create a new test attempt",
      *     tags={"User Tests"},
-     *     security={{"sanctum": {}}},
+     *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -100,7 +100,7 @@ class HistoryTestController extends Controller
      *     path="/api/user-tests/{user_test}",
      *     summary="Show one test attempt with its question records",
      *     tags={"User Tests"},
-     *     security={{"sanctum": {}}},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="user_test",
      *         in="path",
@@ -142,7 +142,7 @@ class HistoryTestController extends Controller
      *     path="/api/user-tests/{user_test}",
      *     summary="Update score or location on a test attempt",
      *     tags={"User Tests"},
-     *     security={{"sanctum": {}}},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="user_test",
      *         in="path",
@@ -186,7 +186,7 @@ class HistoryTestController extends Controller
      *     path="/api/user-tests/{user_test}",
      *     summary="Delete a test attempt and its question records",
      *     tags={"User Tests"},
-     *     security={{"sanctum": {}}},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="user_test",
      *         in="path",
@@ -215,7 +215,7 @@ class HistoryTestController extends Controller
      *     path="/api/user-tests/{user_test}/evaluate",
      *     summary="Evaluate a user test attempt and update score",
      *     tags={"User Tests"},
-     *     security={{"sanctum": {}}},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="user_test",
      *         in="path",
