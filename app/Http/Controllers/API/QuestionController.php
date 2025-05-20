@@ -8,6 +8,34 @@ use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/questions",
+     *     summary="List questions, filterable by search string or tags",
+     *     tags={"Questions"},
+     *     @OA\Parameter(
+     *         name="search",
+     *         in="query",
+     *         required=false,
+     *         description="Search in assignment_en or assignment_sk",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="tags[]",
+     *         in="query",
+     *         required=false,
+     *         description="Filter by tag IDs (array)",
+     *         @OA\Schema(type="array", @OA\Items(type="integer"))
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Questions fetched",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="questions", type="array", @OA\Items(ref="#/components/schemas/Question"))
+     *         )
+     *     )
+     * )
+     */
     public function index(Request $request)
     {
         $query = Question::with(['answers', 'tags']);
@@ -27,25 +55,81 @@ class QuestionController extends Controller
             }
         }
 
-        // Fetch the filtered questions
         $questions = $query->get();
 
-        // Return as JSON response
         return response()->json([
             'questions' => $questions,
         ]);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/questions/{id}",
+     *     summary="Show one question with answers and tags",
+     *     tags={"Questions"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the question",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Question with answers and tags",
+     *         @OA\JsonContent(ref="#/components/schemas/Question")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not found"
+     *     )
+     * )
+     */
     public function show($id)
     {
-        // Eager load 'answers' and 'tags' relationships
         $question = Question::with(['answers', 'tags'])->findOrFail($id);
 
         return response()->json($question);
     }
 
     /**
-     * Create a new question along with its answers and tags.
+     * @OA\Post(
+     *     path="/api/questions",
+     *     summary="Create a new question with answers and tags",
+     *     tags={"Questions"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"assignment_sk","assignment_en","isMultiChoice","answers"},
+     *             @OA\Property(property="assignment_sk", type="string", example="Koľko je 2+2?"),
+     *             @OA\Property(property="assignment_en", type="string", example="What is 2+2?"),
+     *             @OA\Property(property="isMultiChoice", type="boolean", example=false),
+     *             @OA\Property(
+     *                 property="answers",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="answer_sk", type="string", example="Štyri"),
+     *                     @OA\Property(property="answer_en", type="string", example="Four"),
+     *                     @OA\Property(property="isCorrect", type="boolean", example=true)
+     *                 )
+     *             ),
+     *             @OA\Property(
+     *                 property="tag_ids",
+     *                 type="array",
+     *                 @OA\Items(type="integer", example=1)
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Created",
+     *         @OA\JsonContent(ref="#/components/schemas/Question")
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     )
+     * )
      */
     public function store(Request $request)
     {
@@ -61,14 +145,12 @@ class QuestionController extends Controller
             'tag_ids.*'       => 'integer|exists:tags,id',
         ]);
 
-        // 1. Create the question
         $question = Question::create([
             'assignment_sk' => $data['assignment_sk'],
             'assignment_en' => $data['assignment_en'],
             'isMultiChoice' => $data['isMultiChoice'],
         ]);
 
-        // 2. Create related answers
         foreach ($data['answers'] as $ans) {
             $question->answers()->create([
                 'answer_sk'  => $ans['answer_sk'],
@@ -77,12 +159,10 @@ class QuestionController extends Controller
             ]);
         }
 
-        // 3. Attach tags if provided
         if (! empty($data['tag_ids'])) {
             $question->tags()->sync($data['tag_ids']);
         }
 
-        // 4. Return the full resource
         return response()->json(
             $question->load(['answers', 'tags']),
             201
@@ -90,7 +170,54 @@ class QuestionController extends Controller
     }
 
     /**
-     * Update an existing question, its answers, and tags.
+     * @OA\Put(
+     *     path="/api/questions/{id}",
+     *     summary="Update a question, its answers, and tags",
+     *     tags={"Questions"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the question",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"assignment_sk","assignment_en","isMultiChoice","tag_ids"},
+     *             @OA\Property(property="assignment_sk", type="string", example="Koľko je 2+2?"),
+     *             @OA\Property(property="assignment_en", type="string", example="What is 2+2?"),
+     *             @OA\Property(property="isMultiChoice", type="boolean", example=false),
+     *             @OA\Property(
+     *                 property="answers",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="answer_sk", type="string", example="Štyri"),
+     *                     @OA\Property(property="answer_en", type="string", example="Four"),
+     *                     @OA\Property(property="isCorrect", type="boolean", example=true)
+     *                 )
+     *             ),
+     *             @OA\Property(
+     *                 property="tag_ids",
+     *                 type="array",
+     *                 @OA\Items(type="integer", example=1)
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Updated",
+     *         @OA\JsonContent(ref="#/components/schemas/Question")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not found"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     )
+     * )
      */
     public function update(Request $request, $id)
     {
@@ -108,7 +235,6 @@ class QuestionController extends Controller
             'tag_ids.*'       => 'integer|exists:tags,id',
         ]);
 
-        // 1. Update fields on question
         if (isset($data['assignment_sk'])) {
             $question->assignment_sk = $data['assignment_sk'];
         }
@@ -120,7 +246,6 @@ class QuestionController extends Controller
         }
         $question->save();
 
-        // 2. If answers key present, replace all existing answers
         if (array_key_exists('answers', $data)) {
             $question->answers()->delete();
             foreach ($data['answers'] as $ans) {
@@ -132,7 +257,6 @@ class QuestionController extends Controller
             }
         }
 
-        // 3. Sync tags if provided (or detach all if empty array)
         if (array_key_exists('tag_ids', $data)) {
             $question->tags()->sync($data['tag_ids'] ?? []);
         }
@@ -142,6 +266,31 @@ class QuestionController extends Controller
         );
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/questions/{id}",
+     *     summary="Delete a question and its answers",
+     *     tags={"Questions"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the question",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Deleted",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Question 1 successfully deleted.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not found"
+     *     )
+     * )
+     */
     public function destroy($id)
     {
         $question = Question::findOrFail($id);
