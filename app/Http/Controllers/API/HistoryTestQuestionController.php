@@ -198,9 +198,9 @@ class HistoryTestQuestionController extends Controller
     public function update(Request $request, HistoryTest $history_test, $question_id)
     {
         $data = $request->validate([
-            'answer_id'      => 'sometimes|exists:answers,id',
-            'written_answer' => 'sometimes|string|max:255',
-            'time'           => 'sometimes|numeric|min:0',
+            'answer_id'      => 'nullable|exists:answers,id',
+            'written_answer' => 'nullable|string|max:255',
+            'time'           => 'required|numeric|min:0',
         ]);
 
         $history_test->questions()
