@@ -52,7 +52,7 @@
                 <a href="{{ route('tests.start', $test->id) }}"
                     class="bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold py-2 px-3 rounded transition"
                     title="{{ __('tests.start_test') }}">
-                    {{ __('Start Test') }}
+                    {{ __('tests.start_test') }}
                 </a>
             </div>
         </div>

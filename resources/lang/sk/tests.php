@@ -27,4 +27,7 @@ return [
         'deleted' => 'Test bol zmazaný.',
     ],
     'app_tests' => 'Dostupné Testy',
+    'submit' => 'Potvrdiť odpoveď',
+    'your_answer' => 'Vaša odpoveď',
+    'start_test' => 'Spustiť test',
 ];

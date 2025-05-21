@@ -26,5 +26,8 @@ return [
         'updated' => 'Test was successfully updated.',
         'deleted' => 'Test was successfully deleted.',
     ],
-    'app_tests' => 'Available Tests'
+    'app_tests' => 'Available Tests',
+    'submit' => 'Submit answer',
+    'your_answer' => 'Your answer',
+    'start_test' => 'Start test',
 ];

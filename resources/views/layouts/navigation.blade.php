@@ -120,6 +120,11 @@
                 </x-dropdown>
                 @endauth
 
+                @php
+                    $hideButtons = request()->is('test/question') || request()->is('test/result');
+                @endphp
+
+                @if (!$hideButtons)
                 {{-- Theme Toggle --}}
                 <form method="POST" action="{{ route('theme.toggle') }}">
                     @csrf
@@ -182,6 +187,7 @@
                         </div>
                     </div>
                 </a>
+                @endif
 
             </div>
         </div>
