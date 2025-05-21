@@ -9,28 +9,67 @@ use Illuminate\Http\Request;
 class TestController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/tests",
+     *     summary="Get a list of tests (optionally filter by title)",
+     *     tags={"Tests"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="search",
+     *         in="query",
+     *         required=false,
+     *         description="Search by test title",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="List of tests",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="tests", type="array", @OA\Items(ref="#/components/schemas/Test"))
+     *         )
+     *     )
+     * )
      */
     public function index(Request $request)
     {
-        // Start with the base query, eager‐loading questions
         $query = Test::with('questions');
-
-        // If a `search` param is present, filter on title
         if ($search = $request->input('search')) {
             $query->where('title', 'like', "%{$search}%");
         }
-
-        // Execute and return
         $tests = $query->get();
-
         return response()->json([
             'tests' => $tests,
         ]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/tests",
+     *     summary="Create a new test with question IDs",
+     *     tags={"Tests"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"title","question_ids"},
+     *             @OA\Property(property="title", type="string", example="Math Test"),
+     *             @OA\Property(
+     *                 property="question_ids",
+     *                 type="array",
+     *                 @OA\Items(type="integer", example=1)
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Test created",
+     *         @OA\JsonContent(ref="#/components/schemas/Test")
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     )
+     * )
      */
     public function store(Request $request)
     {
@@ -52,7 +91,28 @@ class TestController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/tests/{test}",
+     *     summary="Get a single test with its questions",
+     *     tags={"Tests"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="test",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the test",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Test resource",
+     *         @OA\JsonContent(ref="#/components/schemas/Test")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not found"
+     *     )
+     * )
      */
     public function show(Test $test)
     {
@@ -60,7 +120,44 @@ class TestController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/api/tests/{test}",
+     *     summary="Update a test's title and question IDs",
+     *     tags={"Tests"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="test",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the test",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"title","question_ids"},
+     *             @OA\Property(property="title", type="string", example="New Math Test"),
+     *             @OA\Property(
+     *                 property="question_ids",
+     *                 type="array",
+     *                 @OA\Items(type="integer", example=2)
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Test updated",
+     *         @OA\JsonContent(ref="#/components/schemas/Test")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not found"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     )
+     * )
      */
     public function update(Request $request, Test $test)
     {
@@ -75,7 +172,6 @@ class TestController extends Controller
         }
 
         if (array_key_exists('question_ids', $data)) {
-            // sync questions (add/remove as needed)
             $test->questions()->sync($data['question_ids']);
         }
 
@@ -83,11 +179,33 @@ class TestController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/tests/{test}",
+     *     summary="Delete a test and detach its questions",
+     *     tags={"Tests"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="test",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the test",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Deleted",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Test deleted successfully.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not found"
+     *     )
+     * )
      */
     public function destroy(Test $test)
     {
-        // detach pivot and delete
         $test->questions()->detach();
         $test->delete();
 

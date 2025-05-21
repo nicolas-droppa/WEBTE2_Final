@@ -24,15 +24,26 @@
                     {{ app()->getLocale() === 'sk' ? 'Návod' : 'Guide' }}
                 </a>
 
+<<<<<<< HEAD
                 {{-- Tests / Testy --}}
                 <a href="{{ route('test.index') }}"
                     class="pb-1 border-b-2 transition duration-300
                     @if(request()->routeIs('test.index'))
+=======
+                {{-- Api Docs / Api Dokumentácia --}}
+                <a href="{{ url(config('l5-swagger.routes.api', 'api/documentation')) }}"
+                class="pb-1 border-b-2 transition duration-300
+                    @if(request()->is(trim(config('l5-swagger.routes.api', 'api/documentation'), '/').'*'))
+>>>>>>> d279d67b56faf3820499db649db558eb3f8957ea
                         border-[#54b5ff] text-slate-800 dark:text-white
                     @else
                         border-transparent text-slate-700 dark:text-gray-300 hover:border-[#54b5ff] hover:text-[#54b5ff] dark:hover:border-[#78cfff] dark:hover:text-[#78cfff]
                     @endif">
+<<<<<<< HEAD
                     {{ app()->getLocale() === 'sk' ? 'Testy' : 'Tests' }}
+=======
+                    {{ app()->getLocale() === 'sk' ? 'Dokumentácia' : 'Documentation' }}
+>>>>>>> d279d67b56faf3820499db649db558eb3f8957ea
                 </a>
 
                 @guest
