@@ -6,7 +6,7 @@
 /storage/*.key
 /storage/pail
 /vendor
-.env
+#.env - dočasné pre docker
 .env.backup
 .env.production
 .phpactor.json
