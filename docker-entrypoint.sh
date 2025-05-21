@@ -7,6 +7,9 @@ while ! mysqladmin ping -h mysql --silent; do
     sleep 1
 done
 
+echo "Installing PHP dependencies..."
+composer install --no-interaction --prefer-dist --optimize-autoloader
+
 # Fix permissions on the server
 echo "Setting correct permissions for storage and bootstrap/cache..."
 chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
