@@ -11,5 +11,6 @@ return [
     'submit' => 'Submit',
     'write_here' => 'Write your answer here...',
     'seconds' => 'seconds',
-    'back_to_tests' => 'Back to tests'
+    'back_to_tests' => 'Back to tests',
+    'anonym' => 'Anonymous'
 ];

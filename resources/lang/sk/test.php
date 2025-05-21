@@ -11,5 +11,6 @@ return [
     'submit' => 'Odoslať',
     'write_here' => 'Napíš svoju odpoveď sem...',
     'seconds' => 'sekúnd',
-    'back_to_tests' => 'Návrat k testom'
+    'back_to_tests' => 'Návrat k testom',
+    'anonym' => 'Anonym'
 ];

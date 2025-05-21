@@ -17,7 +17,7 @@
                 <tr class="border-b hover:bg-gray-50 dark:border-[#2a2a2a] dark:md:hover:bg-[#2e2e2e]">
                     {{-- <td class="px-4 py-2">{{ $test->id }}</td> --}}
                     <td class="px-4 py-2">{{ $test->test->title }}</td>
-                    <td class="px-4 py-2">{{ $test->user->name }}</td>
+                    <td class="px-4 py-2">{{ $test->user->name ?? __('test.anonym') }}</td>
                     <td class="px-4 py-2">{{ $test->score }}</td>
                     <td class="px-4 py-2">
                         @php
