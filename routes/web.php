@@ -13,14 +13,6 @@ use App\Http\Middleware\SetLocale;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\TestTakingController;
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/test/{test}/start', [TestTakingController::class, 'start'])->name('test.start');
-    Route::get('/test/question', [TestTakingController::class, 'showQuestion'])->name('test.question');
-    Route::post('/test/question', [TestTakingController::class, 'submitAnswer'])->name('test.answer');
-    Route::get('/test/result', [TestTakingController::class, 'result'])->name('test.result');
-    Route::get('/tests/{test}/start', [TestTakingController::class, 'start'])->name('tests.start');
-});
-
 Route::get('lang/{locale}', function ($locale) {
     if (in_array($locale, ['en', 'sk'])) {
         App::setLocale($locale);
@@ -39,6 +31,14 @@ Route::get('lang/{locale}', function ($locale) {
 })->name('set-language');
 
 Route::middleware([SetLocale::class])->group(function () {
+    // TESTS
+    Route::get('/test/{test}/start', [TestTakingController::class, 'start'])->name('test.start');
+    Route::get('/test/question', [TestTakingController::class, 'showQuestion'])->name('test.question');
+    Route::post('/test/question', [TestTakingController::class, 'submitAnswer'])->name('test.answer');
+    Route::get('/test/result', [TestTakingController::class, 'result'])->name('test.result');
+    Route::get('/tests/{test}/start', [TestTakingController::class, 'start'])->name('tests.start');
+    Route::get('/tests', [TestTakingController::class, 'index'])->name('test.index');
+
     // HOME
     Route::get('/', function () {
         return view('welcome');

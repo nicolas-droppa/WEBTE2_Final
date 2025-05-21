@@ -16,7 +16,7 @@ class TestController extends Controller
         if ($search = $request->query('search')) {
             $q->where('title', 'like', "%{$search}%");
         }
-        $tests = $q->orderBy('created_at', 'desc')
+        $tests = $q->orderBy('created_at', 'asc')
                    ->paginate(10);
 
         return view('admin.tests.index', compact('tests'));

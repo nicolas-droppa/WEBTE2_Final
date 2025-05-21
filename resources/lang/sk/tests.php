@@ -4,7 +4,7 @@ return [
     'title'             => 'Všetky testy',
     'create'            => 'Nový test',
     'search_label'      => 'Hľadaj podľa názvu',
-    'search_placeholder'=> 'Zadajte názov testu…',
+    'search_placeholder' => 'Zadajte názov testu…',
     'filter_button'     => 'Filtrovať',
     'edit'              => 'Upraviť',
     'delete'            => 'Zmazať',
@@ -26,4 +26,5 @@ return [
         'updated' => 'Test bol úspešne aktualizovaný.',
         'deleted' => 'Test bol zmazaný.',
     ],
+    'app_tests' => 'Dostupné Testy',
 ];

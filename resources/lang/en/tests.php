@@ -26,4 +26,5 @@ return [
         'updated' => 'Test was successfully updated.',
         'deleted' => 'Test was successfully deleted.',
     ],
+    'app_tests' => 'Available Tests'
 ];

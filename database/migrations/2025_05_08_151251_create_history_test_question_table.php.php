@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('history_test_question', function (Blueprint $table) {
             $table->foreignId('history_test_id')->constrained()->onDelete('cascade');
             $table->foreignId('question_id')->constrained()->onDelete('cascade');
-            $table->foreignId('answer_id')->constrained()->onDelete('cascade')->nullable();
+            $table->foreignId('answer_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('written_answer')->nullable();
             $table->float('time')->nullable(); // 'number' from diagram -> float
             $table->primary(['history_test_id', 'question_id']);

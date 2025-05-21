@@ -11,11 +11,23 @@ use Illuminate\Support\Facades\DB;
 
 class TestTakingController extends Controller
 {
+    public function index(Request $request)
+    {
+        $q = Test::query();
+        if ($search = $request->query('search')) {
+            $q->where('title', 'like', "%{$search}%");
+        }
+        $tests = $q->orderBy('created_at', 'asc')
+            ->paginate(10);
+
+        return view('test.index', compact('tests'));
+    }
+
     public function start(Test $test)
     {
         // Create a new history test entry
         $historyTest = HistoryTest::create([
-            'user_id' => Auth::id(),
+            'user_id' => Auth::id() ?? null,
             'test_id' => $test->id,
             'city'    => 'unknown',
             'state'   => 'unknown',
