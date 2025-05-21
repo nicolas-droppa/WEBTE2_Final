@@ -13,7 +13,7 @@
     <!-- Test Info -->
     <div class="bg-white dark:bg-[#1c1c1e] shadow-md rounded-xl p-6 border border-slate-200 dark:border-[#141414] mb-10">
         <p class="text-slate-700 dark:text-slate-300">
-            <strong>{{ __('history.user-name') }}: </strong> {{ $test->user->name }}
+            <strong>{{ __('history.user-name') }}: </strong> {{ $test->user->name ?? __('test.anonym') }}
         </p>
         <p class="text-slate-700 dark:text-slate-300">
             <strong>{{ __('history.time') }}:</strong> {{ $test->created_at }}
