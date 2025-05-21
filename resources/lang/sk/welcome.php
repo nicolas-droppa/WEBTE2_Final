@@ -10,7 +10,7 @@ return [
     'question_types_description' => [
         'Otázky s výberom odpovedí – len jedna správna odpoveď.',
         'Otvorené otázky, kde zadávate číselnú odpoveď.',
-        'Píšte čísla buď s bodkou alebo čiarou (1.25 / 1,25).',
+        'Píšte čísla s bodkou (1.25 / 15.47 / 3.14).',
         'Odporúča sa zaokrúhliť na 2 desatinné miesta, ak nie je uvedené inak.',
     ],
     'time_limit' => 'Časový limit',

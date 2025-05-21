@@ -10,7 +10,7 @@ return [
     'question_types_description' => [
         'Multiple choice questions – only one correct answer.',
         'Open-ended questions where you enter a numeric answer.',
-        'Write numbers with either a dot or a comma (1.25 / 1,25).',
+        'Write numbers with a dot (1.25 / 15.47 / 3.14).',
         'It is recommended to round to 2 decimal places if not specified otherwise.',
     ],
     'time_limit' => 'Time Limit',
