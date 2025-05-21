@@ -174,8 +174,8 @@ class HistoryTestController extends Controller
     {
         $data = $request->validate([
             'score'   => 'required|integer|min:0',
-            'city'    => 'sometimes|string|max:255',
-            'state'   => 'sometimes|string|max:255',
+            'city'    => 'nullable|string|max:255',
+            'state'   => 'nullable|string|max:255',
         ]);
         $history_test->update($data);
         return response()->json($history_test);
@@ -236,22 +236,51 @@ class HistoryTestController extends Controller
      */
     public function evaluate(HistoryTest $history_test)
     {
+        // grab both pivot columns answer_id and written_answer
         $records = $history_test
             ->questions()
-            ->withPivot('answer_id')
+            ->withPivot('answer_id', 'written_answer')
             ->get();
-        $total    = $records->count();
-        $correct  = 0;
+
+        $total   = $records->count();
+        $correct = 0;
+
         foreach ($records as $question) {
-            $userAnswerId = $question->pivot->answer_id;
-            $correctAnswerId = Answer::where('question_id', $question->id)
-                                     ->where('isCorrect', 1)
-                                     ->value('id');
-            if ($userAnswerId !== null && $userAnswerId == $correctAnswerId) {
-                $correct++;
+            // what user did
+            $userAnswerId   = $question->pivot->answer_id;
+            $userWritten    = $question->pivot->written_answer;
+
+            if ($question->isMultiChoice) {
+                // —————— multiple choice: same as before ——————
+                $correctAnswerId = Answer::where('question_id', $question->id)
+                                        ->where('isCorrect',    1)
+                                        ->value('id');
+
+                if ($userAnswerId !== null && $userAnswerId == $correctAnswerId) {
+                    $correct++;
+                }
+
+            } else {
+                // —————— single‐answer: compare strings ——————
+                $answer = Answer::where('question_id', $question->id)
+                                ->where('isCorrect',    1)
+                                ->first(['answer_sk', 'answer_en']);
+
+                if ($answer) {
+                    // case‐insensitive exact match against either locale
+                    $matchSk = strcasecmp($userWritten, $answer->answer_sk) === 0;
+                    $matchEn = strcasecmp($userWritten, $answer->answer_en) === 0;
+
+                    if ($matchSk || $matchEn) {
+                        $correct++;
+                    }
+                }
             }
         }
+
+        // persist and return
         $history_test->update(['score' => $correct]);
+
         return response()->json([
             'total_questions' => $total,
             'correct_answers' => $correct,
